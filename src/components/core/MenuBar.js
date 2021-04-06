@@ -8,6 +8,7 @@ function MenuBar() {
                 <Dropdown.Menu>
                     <Dropdown.Item>New</Dropdown.Item>
                     <Dropdown.Item>Load</Dropdown.Item>
+                    <Dropdown.Item>Save</Dropdown.Item>
                     <Dropdown.Item>Create Mod</Dropdown.Item>
                     <Dropdown.Item>Exit</Dropdown.Item>
                 </Dropdown.Menu>
