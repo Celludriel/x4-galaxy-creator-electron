@@ -1,6 +1,7 @@
 import React from 'react';
 import {Container, Grid} from "semantic-ui-react";
 import MenuBar from "./MenuBar";
+import Map from "../map/Map";
 
 function MainContainer() {
 
@@ -14,7 +15,7 @@ function MainContainer() {
             <Grid.Row columns={2}>
                 <Grid.Column>
                     <Container>
-                        Map comes here
+                        <Map size={20} width={5} height={5} />
                     </Container>
                 </Grid.Column>
                 <Grid.Column>

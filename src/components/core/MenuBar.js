@@ -15,6 +15,7 @@ function MenuBar() {
             </Dropdown>
             <Dropdown item text='Editors'>
                 <Dropdown.Menu>
+                    <Dropdown.Item>Map Editor</Dropdown.Item>
                     <Dropdown.Item>Job Editor</Dropdown.Item>
                     <Dropdown.Item>Economy Editor</Dropdown.Item>
                 </Dropdown.Menu>
