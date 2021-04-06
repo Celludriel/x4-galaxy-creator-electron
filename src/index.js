@@ -4,11 +4,33 @@ import './index.css';
 import 'semantic-ui-css/semantic.min.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {applyMiddleware, compose, createStore} from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import {Provider} from "react-redux";
+import rootReducer from './reducers'
+
+const sagaMiddleware = createSagaMiddleware()
+
+const composeEnhancers = typeof window === 'object' && window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] ?
+    window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__']({}) : compose;
+const enhancer = composeEnhancers(
+    applyMiddleware(sagaMiddleware)
+);
+
+const store = createStore(
+    rootReducer,
+    enhancer
+)
+
+//sagaMiddleware.run(ldapSaga)
+//sagaMiddleware.run(scheduleSaga)
 
 ReactDOM.render(
-  <React.Fragment>
-    <App />
-  </React.Fragment>,
+    <Provider store={store}>
+        <React.Fragment>
+            <App />
+        </React.Fragment>
+    </Provider>,
   document.getElementById('root')
 );
 
