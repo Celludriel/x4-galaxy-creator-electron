@@ -6,11 +6,14 @@ function Map({ size, width, height, ...props }) {
 
   useHoneyCombGrid(canvasRef, { size, width, height });
 
-  const gridwidth = width * 140;
-  const gridheight = height * 90;
+  const gridwidth = width * 32;
+  const gridheight = height * 36;
 
-
-  return <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} />
+  return (
+    <div id="canvasdiv" style={{width: '100%', height: 880, padding: '0px 0px', border: 1, solid: '#000', overflow: 'auto'}}>
+      <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} style={{display: 'inline-block', marginRight:'-calc4px'}}/>
+    </div>
+  )
 }
 
 function useHoneyCombGrid(canvasRef, { size, width, height }) {
@@ -22,18 +25,16 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
       size,
       orientation: 'flat',
       render(context) {
-        console.log("hex: " + this)
         const position = this.toPoint();
         const centerPosition = this.center().add(position);
-        const xOffset = Math.floor(width / 2) * this.width()
+        const xOffset = (Math.floor(width / 2) * this.width()) - (6*size)
         const yOffset = Math.floor(height / 2) * this.height()
-
+        console.log([this, position, xOffset, yOffset])
         context.beginPath();
 
         const point = this.toPoint()
         // add the hex's position to each of its corner points
         const corners = this.corners().map(corner => corner.add(point))
-        console.log(this.corners())
 
         // separate the first from the other corners
         const [firstCorner, ...otherCorners] = corners
@@ -48,8 +49,10 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
         context.strokeStyle = "#000000";
         context.lineWidth = 1;
         context.stroke();
+        if(this.x == 0 && this.y == 0){
+          context.fill();
+        }
         context.closePath();
-        //context.fill();
       },
     });
 
