@@ -6,11 +6,11 @@ function Map({ size, width, height, ...props }) {
 
   useHoneyCombGrid(canvasRef, { size, width, height });
 
-  const gridwidth = width * 32;
-  const gridheight = height * 36;
+  const gridwidth = ((Math.floor(width/2)) * 40) + ((Math.floor(width/2)) * 20) + 10;
+  const gridheight = (height * 34.6410) + 20
 
   return (
-    <div id="canvasdiv" style={{width: '100%', height: 880, padding: '0px 0px', border: 1, solid: '#000', overflow: 'auto'}}>
+    <div id="canvasdiv" style={{width: '100%', height: 730, padding: '0px 0px', border: 1, solid: '#000', overflow: 'auto'}}>
       <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} style={{display: 'inline-block', marginRight:'-calc4px'}}/>
     </div>
   )
@@ -27,9 +27,9 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
       render(context) {
         const position = this.toPoint();
         const centerPosition = this.center().add(position);
-        const xOffset = (Math.floor(width / 2) * this.width()) - (6*size)
-        const yOffset = Math.floor(height / 2) * this.height()
-        console.log([this, position, xOffset, yOffset])
+        const xOffset = 0
+        const yOffset = 0
+        //console.log([this, position, xOffset, yOffset, this.width(), this.height()])
         context.beginPath();
 
         const point = this.toPoint()
@@ -49,7 +49,9 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
         context.strokeStyle = "#000000";
         context.lineWidth = 1;
         context.stroke();
-        if(this.x == 0 && this.y == 0){
+
+        console.log([(this.x + Math.floor(width / 2)),(this.y + (Math.floor(height / 2)))])
+        if((this.x === Math.floor(width / 2))  && (this.y === (Math.floor(height / 2)))){
           context.fill();
         }
         context.closePath();
@@ -60,7 +62,7 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
     const grid = Grid.rectangle({
       width,
       height,
-      start: [-(Math.floor(width / 2)), -(Math.floor(height / 2))],
+      start: [0, 0],
       direction: 1,
       onCreate: hex => hex.render(context)
     });
