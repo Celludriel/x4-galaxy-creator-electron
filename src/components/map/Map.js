@@ -10,7 +10,7 @@ function Map({ size, width, height, ...props }) {
   const gridheight = (height * 34.6410) + 20
 
   return (
-    <div id="canvasdiv" style={{width: '100%', height: 730, padding: '0px 0px', border: 1, solid: '#000', overflow: 'auto'}}>
+    <div id="canvasdiv" style={{width: '100%', height: 730, padding: '0px 0px', border: 1, solid: '#000000', overflow: 'auto'}}>
       <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} style={{display: 'inline-block', marginRight:'-calc4px'}}/>
     </div>
   )
@@ -50,7 +50,7 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
         context.lineWidth = 1;
         context.stroke();
 
-        console.log([(this.x + Math.floor(width / 2)),(this.y + (Math.floor(height / 2)))])
+        //console.log([(this.x + Math.floor(width / 2)),(this.y + (Math.floor(height / 2)))])
         if((this.x === Math.floor(width / 2))  && (this.y === (Math.floor(height / 2)))){
           context.fill();
         }

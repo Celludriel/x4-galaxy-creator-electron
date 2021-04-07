@@ -1,6 +1,8 @@
 const path = require("path");
 
-const { app, BrowserWindow } = require("electron");
+require('@electron/remote/main').initialize()
+
+const { app, dialog, ipcMain, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
@@ -23,7 +25,9 @@ function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
@@ -73,3 +77,7 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.handle('open_file_dialog', async (event, arg) => {
+    return await dialog.showOpenDialog(null, { properties: ['openFile', 'multiSelections'] });
+})
