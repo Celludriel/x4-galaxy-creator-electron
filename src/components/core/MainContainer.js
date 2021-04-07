@@ -13,15 +13,18 @@ function MainContainer() {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row columns={2}>
-                <Grid.Column>
-                    <Container>
-                        <Map size={20} width={5} height={5} />
-                    </Container>
+                <Grid.Column textAlign='center'>
+                    <Map size={20} width={24} height={24} />
                 </Grid.Column>
                 <Grid.Column>
                     <Container>
                         Editor pane comes here
                     </Container>
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns={1}>
+                <Grid.Column>
+                    StatusBar
                 </Grid.Column>
             </Grid.Row>
         </Grid>
