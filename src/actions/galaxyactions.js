@@ -5,4 +5,4 @@ const loadGalaxy = (jsonFile) => {
     }
 }
 
-export default loadGalaxy
+export default { loadGalaxy }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Dropdown, Menu} from "semantic-ui-react";
 import allActions from './../../actions/index';
 
