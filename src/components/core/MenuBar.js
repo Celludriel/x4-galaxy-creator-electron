@@ -1,11 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {Dropdown, Menu} from "semantic-ui-react";
+import allActions from './../../actions/index';
 
 function MenuBar() {
+    const dispatch = useDispatch()
+
     const openFile = () => {
         window.electron.openFileDialog()
-            .then((value) => {
-                console.log(value);
+            .then((galaxyJsonObject) => {
+                console.log(galaxyJsonObject);
+                dispatch(allActions.galaxyActions.loadGalaxy(galaxyJsonObject))
             })
             .catch(error => console.log(error))
     };

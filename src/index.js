@@ -8,6 +8,7 @@ import {applyMiddleware, compose, createStore} from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {Provider} from "react-redux";
 import rootReducer from './reducers'
+import galaxySaga from './sagas/galaxysaga';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -22,8 +23,7 @@ const store = createStore(
     enhancer
 )
 
-//sagaMiddleware.run(ldapSaga)
-//sagaMiddleware.run(scheduleSaga)
+sagaMiddleware.run(galaxySaga)
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,18 +1,12 @@
 const path = require("path");
+const fs = require('fs');
 
-require('@electron/remote/main').initialize()
 
 const { app, dialog, ipcMain, BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
-let installExtension, REACT_DEVELOPER_TOOLS; // NEW!
-
-if (isDev) {
-    const devTools = require("electron-devtools-installer");
-    installExtension = devTools.default;
-    REACT_DEVELOPER_TOOLS = devTools.REACT_DEVELOPER_TOOLS;
-} // NEW!
+const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
@@ -52,7 +46,7 @@ app.whenReady().then(() => {
     createWindow();
 
     if (isDev) {
-        installExtension(REACT_DEVELOPER_TOOLS)
+        installExtension([REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS])
             .then(name => console.log(`Added Extension:  ${name}`))
             .catch(error => console.log(`An error occurred: , ${error}`));
     }
@@ -78,6 +72,20 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+const loadFile = async () => {
+    try {
+        const dialogAsync = dialog.showOpenDialog(null, { properties: ['openFile', 'multiSelections'] });
+        const chosenFiles = await dialogAsync;
+        if (chosenFiles && chosenFiles.canceled === false) {
+            let configPath = chosenFiles.filePaths[0];
+            let fileContents = fs.readFileSync(configPath, 'utf-8');
+            return JSON.parse(fileContents);
+        }
+    } catch (err) {
+        logger.log(err);
+    }
+}
+
 ipcMain.handle('open_file_dialog', async (event, arg) => {
-    return await dialog.showOpenDialog(null, { properties: ['openFile', 'multiSelections'] });
+    return await loadFile()
 })

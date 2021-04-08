@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as Honeycomb from "honeycomb-grid";
 
 function Map({ size, width, height, ...props }) {
@@ -6,12 +6,12 @@ function Map({ size, width, height, ...props }) {
 
   useHoneyCombGrid(canvasRef, { size, width, height });
 
-  const gridwidth = ((Math.floor(width/2)) * 40) + ((Math.floor(width/2)) * 20) + 10;
+  const gridwidth = ((Math.floor(width / 2)) * 40) + ((Math.floor(width / 2)) * 20) + 10;
   const gridheight = (height * 34.6410) + 20
 
   return (
-    <div id="canvasdiv" style={{width: '100%', height: 730, padding: '0px 0px', border: 1, solid: '#000000', overflow: 'auto'}}>
-      <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} style={{display: 'inline-block', marginRight:'-calc4px'}}/>
+    <div id="canvasdiv" style={{ width: '100%', height: 730, padding: '0px 0px', border: 1, solid: '#000000', overflow: 'auto' }}>
+      <canvas ref={canvasRef} {...props} width={gridwidth} height={gridheight} style={{ display: 'inline-block', marginRight: '-calc4px' }} />
     </div>
   )
 }
@@ -25,8 +25,8 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
       size,
       orientation: 'flat',
       render(context) {
-        const position = this.toPoint();
-        const centerPosition = this.center().add(position);
+        //const position = this.toPoint();
+        //const centerPosition = this.center().add(position);
         const xOffset = 0
         const yOffset = 0
         //console.log([this, position, xOffset, yOffset, this.width(), this.height()])
@@ -51,7 +51,7 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
         context.stroke();
 
         //console.log([(this.x + Math.floor(width / 2)),(this.y + (Math.floor(height / 2)))])
-        if((this.x === Math.floor(width / 2))  && (this.y === (Math.floor(height / 2)))){
+        if ((this.x === Math.floor(width / 2)) && (this.y === (Math.floor(height / 2)))) {
           context.fill();
         }
         context.closePath();
@@ -59,7 +59,7 @@ function useHoneyCombGrid(canvasRef, { size, width, height }) {
     });
 
     const Grid = Honeycomb.defineGrid(Hex);
-    const grid = Grid.rectangle({
+    Grid.rectangle({
       width,
       height,
       start: [0, 0],
