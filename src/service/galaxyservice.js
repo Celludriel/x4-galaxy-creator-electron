@@ -1,19 +1,5 @@
-const GalaxyService = {
-    getGridCoordinates: (width, height, gameCoords) => {
-        let widthOffset = Math.floor(width / 2)
-        let heightOffset = Math.floor(height / 2)
-
-        return [gameCoords[0] + widthOffset,gameCoords[1] + heightOffset]
-    },
-    getGameCoordinates: (width, height, gridCoords) => {
-        let widthOffset = Math.floor(width / 2)
-        let heightOffset = Math.floor(height / 2)
-
-        return [gridCoords[0] - widthOffset,-(gridCoords[1] - heightOffset)]
-    },
-    getFactionColors: () => {
-        /*
-        xenon: {color: '#880000', border: '#c90000'},
+/*
+    xenon: {color: '#880000', border: '#c90000'},
     paranid: {color: '#2d0050', border: '#8000ff'},
     alliance: {color: '#b03cca', border: '#b03cca'},
     split: {color: '#5e2204', border: '#ff691e'},
@@ -28,27 +14,32 @@ const GalaxyService = {
     yaki: {color: '#fe8dfa', border: '#ffadfa'},
     terran: {color: '#bcd0fb', border: '#bcd0fb'},
     none: {color: '#666', border: '#aaa'}
-         */
+ */
+const GalaxyService = {
+    getGameCoordinates: (gridCoords) => {
+        return [gridCoords[0],-(gridCoords[1])]
+    },
+    getFactionColors: () => {
         return {
-            "ARGON": "#0000ff",
-            "ANTIGONE": "#00ffff",
-            "HATIKVAH": "#ff6600",
-            "PARANID": "#ffff00",
-            "HOLYORDER": "#ff00ff",
-            "ALLIANCE": "#6600ff",
-            "TELADI": "#00ff00",
-            "MINISTRY": "#108f31",
+            "ARGON": "#00256e",
+            "ANTIGONE": "#4023ae",
+            "HATIKVAH": "#147a70",
+            "PARANID": "#2d0050",
+            "HOLYORDER": "#b45694",
+            "ALLIANCE": "#b03cca",
+            "TELADI": "#6e7c2a",
+            "MINISTRY": "#94bc92",
             "SCALEPLATE": "#82ae3f",
             "BUCCANEERS": "#ff9577",
             "TRINITY": "#808334",
-            "SPLIT": "#ffd6b8",
-            "FREESPLIT": "#ffd6b8",
+            "SPLIT": "#5e2204",
+            "FREESPLIT": "#a45525",
             "COURT": "#3f3f6b",
             "FALLENFAMILIES": "#825a8a",
-            "TERRAN": "#c7c7ff",
-            "PIONEER": "#752d3b",
-            "YAKI": "#fac600",
-            "XENON": "#ff0000"
+            "TERRAN": "#bcd0fb",
+            "PIONEER": "#41aa9a",
+            "YAKI": "#fe8dfa",
+            "XENON": "#880000"
         }
     },
     getClusterOwner: (cluster) => {

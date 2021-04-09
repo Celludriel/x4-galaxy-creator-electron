@@ -4,24 +4,17 @@ import GalaxyService from "../../service/galaxyservice";
 
 function Map({ size, width, height, clusters, ...props }) {
   const canvasRef = React.useRef(null);
-
-    console.log("clusters entering Map: " + clusters)
-
-    //debugger
-    const clusterMap = {}
-    if(clusters != undefined && clusters.length > 0){
-        for(var i = 0;i < clusters.length;i++){
-            //clusterMap.push(clusters[i])
-            var key = clusters[i].x + "," + clusters[i].y
-            console.log("key: " + key)
-            clusterMap[key] = clusters[i];
-        }
-    }
-    console.log(clusterMap)
+  const clusterMap = {}
+  if(clusters != undefined && clusters.length > 0){
+      for(var i = 0;i < clusters.length;i++){
+          var key = clusters[i].x + "," + clusters[i].y
+          clusterMap[key] = clusters[i];
+      }
+  }
 
   useHoneyCombGrid(canvasRef, size, width, height, clusterMap);
 
-  const gridwidth = ((Math.floor(width / 2)) * 40) + ((Math.floor(width / 2)) * 20) + 10;
+  const gridwidth = ((Math.ceil(width / 2)) * 40) + ((Math.ceil(width / 2)) * 20) + 10;
   const gridheight = (height * 34.6410) + 20
 
   return (
@@ -43,24 +36,20 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
     const Hex = Honeycomb.extendHex({
       size,
       orientation: 'flat',
+      offset: 1,
       render(context, clusters) {
-          //console.log("clusters in hex: " + clusters)
         const position = this.toPoint();
         const centerPosition = this.center().add(position);
 
+        const xOffset = (Math.floor(width/2) * this.width()) - 100
+        const yOffset = Math.floor(height/2) * this.height()
 
-
-        const xOffset = 0
-        const yOffset = 0
-        //console.log([this, position, xOffset, yOffset, this.width(), this.height()])
         context.beginPath();
         const point = this.toPoint()
         // add the hex's position to each of its corner points
         const corners = this.corners().map(corner => corner.add(point))
-
         // separate the first from the other corners
         const [firstCorner, ...otherCorners] = corners
-
         // move the "pen" to the first corner
         context.moveTo(firstCorner.x + xOffset, firstCorner.y + yOffset)
         // draw lines to the other corners
@@ -72,21 +61,16 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
         context.lineWidth = 1;
         context.stroke();
 
-        //console.log([(this.x + Math.floor(width / 2)),(this.y + (Math.floor(height / 2)))])
           // debugger
         if(clusters !== undefined && Object.keys(clusters).length > 0) {
-            let gameCoords = GalaxyService.getGameCoordinates(width, height, [this.x, this.y])
-            //console.log("gameCoords: " + gameCoords)
+            let gameCoords = GalaxyService.getGameCoordinates([this.x, this.y])
             let cluster = clusters[gameCoords[0]+","+gameCoords[1]];
-            //console.log(cluster)
 
             if(cluster !== undefined){
                 let clusterOwner = GalaxyService.getClusterOwner(cluster);
                 context.fillStyle = 'grey';
                 if(clusterOwner !== null){
-                    console.log(clusterOwner)
                     if(clusterOwner !== undefined){
-                        console.log(colors[clusterOwner])
                         context.fillStyle = colors[clusterOwner];
                     }
                 }
@@ -94,8 +78,8 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
             }
         }
 
-          context.fillStyle = "black"
-          context.fillText(this.x+","+this.y,centerPosition.x,centerPosition.y)
+        //context.fillStyle = "black"
+        //context.fillText(this.x+","+this.y,centerPosition.x+xOffset,centerPosition.y+yOffset)
         context.closePath();
       },
     });
@@ -105,7 +89,7 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
     Grid.rectangle({
       width,
       height,
-      start: [0, 0],
+      start: [-(Math.floor(width/2)), -(Math.floor(height/2))],
       direction: 1,
       onCreate: hex => hex.render(context, clusters)
     });
