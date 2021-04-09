@@ -11,7 +11,23 @@ const defaultState = {
         "save": "0",
         "minRandomBelts": 0,
         "maxRandomBelts": 0,
-        "clusters": [],
+        "clusters": [{
+            "id": "01",
+            "name": "",
+            "description": "",
+            "music": "",
+            "sunlight": "1",
+            "economy": "0",
+            "security": "0",
+            "x": 0,
+            "y": 0,
+            "backdrop": "empty_space",
+            "noBelts": false,
+            "connections": [],
+            "belts": [],
+            "stations": [],
+            "spaceObjects": []
+        }],
         "products": [],
         "jobs": []
     }

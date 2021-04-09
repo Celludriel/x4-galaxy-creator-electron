@@ -16,7 +16,7 @@ function MainContainer() {
             </Grid.Row>
             <Grid.Row columns={2}>
                 <Grid.Column textAlign='center'>
-                    <Map size={20} width={25} height={25} clusters={clusters} />
+                    <Map size={40} width={25} height={25} clusters={clusters} />
                 </Grid.Column>
                 <Grid.Column>
                     <Container>

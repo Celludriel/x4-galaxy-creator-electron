@@ -43,17 +43,17 @@ const GalaxyService = {
         }
     },
     getClusterOwner: (cluster) => {
-        var stationCountForFaction = [];
+        let stationCountForFaction = [];
         if(cluster.stations !== undefined && cluster.stations.length > 0){
-            for(var i=0;i < cluster.stations.length;i++){
-                var factionCount = stationCountForFaction[cluster.stations[i].owner]
+            for(let i=0;i < cluster.stations.length;i++){
+                let factionCount = stationCountForFaction[cluster.stations[i].owner]
                 if(factionCount === undefined){
                     stationCountForFaction[cluster.stations[i].owner] = 1
                 } else {
                     stationCountForFaction[cluster.stations[i].owner] = factionCount + 1;
                 }
             }
-            var sorted_keys = Object.keys(stationCountForFaction).sort(function(a,b) { return stationCountForFaction[b] - stationCountForFaction[a]; });
+            let sorted_keys = Object.keys(stationCountForFaction).sort(function(a,b) { return stationCountForFaction[b] - stationCountForFaction[a]; });
             return sorted_keys[0];
         }
         return null;

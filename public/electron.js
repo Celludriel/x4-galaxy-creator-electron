@@ -81,8 +81,9 @@ const loadFile = async () => {
             let fileContents = fs.readFileSync(configPath, 'utf-8');
             return JSON.parse(fileContents);
         }
+        return null;
     } catch (err) {
-        logger.log(err);
+        console.log(err);
     }
 }
 
