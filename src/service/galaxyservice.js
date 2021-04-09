@@ -44,8 +44,6 @@ const GalaxyService = {
     },
     getClusterOwner: (cluster) => {
         var stationCountForFaction = [];
-
-        console.log(cluster.stations)
         if(cluster.stations !== undefined && cluster.stations.length > 0){
             for(var i=0;i < cluster.stations.length;i++){
                 var factionCount = stationCountForFaction[cluster.stations[i].owner]
@@ -56,7 +54,6 @@ const GalaxyService = {
                 }
             }
             var sorted_keys = Object.keys(stationCountForFaction).sort(function(a,b) { return stationCountForFaction[b] - stationCountForFaction[a]; });
-            console.log(sorted_keys)
             return sorted_keys[0];
         }
         return null;
