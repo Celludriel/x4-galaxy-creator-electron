@@ -17,13 +17,14 @@ function ClusterEditorTab({clusters}) {
         return {
             key: index,
             text: `${cluster.name} (${cluster.x},${cluster.y})`,
-            value: `${cluster.x},${cluster.y}`
+            value: index
         }
     })
 
     return (
         <div>
-            <Dropdown placeholder='Cluster' search selection options={clusterOptions}/>
+            <Dropdown placeholder='Cluster' search selection options={clusterOptions}
+                      onChange={(evt, obj) => setSelectedCluster(clusters[obj.value])}/>
             &nbsp;
             <Button secondary>Delete</Button>
             <Button primary>Add</Button>
