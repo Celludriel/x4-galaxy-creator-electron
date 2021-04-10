@@ -24,6 +24,7 @@ function ClusterEditorTab({ clusters }) {
         "x": selectedCluster.x,
         "y": selectedCluster.y,
         "backdrop": selectedCluster.backdrop,
+        "factionHq": selectedCluster.factionHq !== undefined ? selectedCluster.factionHq : "",
         "noBelts": selectedCluster.noBelts,
         "connections": selectedCluster.connections,
         "belts": selectedCluster.belts,
@@ -96,7 +97,7 @@ function ClusterEditorTab({ clusters }) {
     }
 
     const panes = [
-        { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} /></Tab.Pane> },
+        { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Stations', render: () => <Tab.Pane><ClusterStationsTab form={form} setForm={formUpdate} /></Tab.Pane> },
     ]

@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { Form } from "semantic-ui-react";
+import GalaxyService from './../../service/galaxyservice';
 
-function ClusterDetailsTab({ form, setForm }) {
+function ClusterDetailsTab({ form, setForm, clusters }) {
 
     const backdropOptions = [
         {
@@ -42,6 +43,11 @@ function ClusterDetailsTab({ form, setForm }) {
                 <Form.Dropdown label={"Backdrop"} placeholder='Backdrop' search selection options={backdropOptions}
                     value={form.backdrop} onChange={e => {
                         setForm({ ...form, backdrop: e.target.value })}}  />
+                 <Form.Dropdown label={"Faction Hq"} placeholder='Faction Hq' search selection options={GalaxyService.getFactionHqOptions(clusters)}
+                    value={form.factionHq} onChange={e => {
+                        setForm({ ...form, factionHq: e.target.value })}}  />
+            </Form.Group>
+            <Form.Group widths={"equal"}>
                 <Form.Checkbox name={"noBelts"} label='Disable belts'
                     checked={form.noBelts} onChange={(e,data) => {
                         setForm({ ...form, noBelts: data.checked })}} />    

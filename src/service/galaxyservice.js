@@ -112,6 +112,11 @@ const GalaxyService = {
             {key: 'PIONEER',text: 'Pioneer',value: 'PIONEER'},
             {key: 'YAKI',text: 'Yaki',value: 'YAKI'},
         ]
+    },
+    getFactionHqOptions: (clusters) => {
+        let allHqFactions = ["","ALLIANCE","TELADI","HOLYORDER","ARGON","PARANID",
+        "MINISTRY","HATIKVAH","SCALEPLATE","ANTIGONE"]
+        return allHqFactions.map((hq, index) => {return {key: hq,text: hq,value: hq}})
     }
 };
 
