@@ -61,7 +61,7 @@ function ClusterEditorTab({ clusters }) {
     const handleSubmit = (evt) => {
         console.log("handleSubmit");
         evt.preventDefault();
-        if(Number.isInteger(form.x) && Number.isInteger(form.y)){
+        if(Number.isInteger(Number(form.x)) && Number.isInteger(Number(form.y))){
             dispatch(allActions.galaxyActions.updateClusterInGalaxy(form))
             setDirty(false)
         }
