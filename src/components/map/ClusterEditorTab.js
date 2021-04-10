@@ -6,6 +6,7 @@ import ClusterStationsTab from "./ClusterStationsTab";
 import GalaxyService from './../../service/galaxyservice';
 import allActions from './../../actions/index';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 function ClusterEditorTab({ clusters }) {
     const dispatch = useDispatch()
@@ -60,8 +61,38 @@ function ClusterEditorTab({ clusters }) {
     const handleSubmit = (evt) => {
         console.log("handleSubmit");
         evt.preventDefault();
-        dispatch(allActions.galaxyActions.updateClusterInGalaxy(form))
+        if(Number.isInteger(form.x) && Number.isInteger(form.y)){
+            dispatch(allActions.galaxyActions.updateClusterInGalaxy(form))
+            setDirty(false)
+        }
+    }
+
+    const addNewCluster = () => {
+        dispatch(allActions.galaxyActions.addNewCluster({
+            "id": uuidv4(),
+            "name": "",
+            "description": "",
+            "music": "",
+            "sunlight": "",
+            "economy": "",
+            "security": "",
+            "x": "NaN",
+            "y": "NaN",
+            "backdrop": "",
+            "noBelts": false,
+            "connections": [],
+            "belts": [],
+            "stations": [],
+            "spaceObjects": []
+        }))
         setDirty(false)
+    }
+
+    const removeCluster = () => {
+        if(selectedCluster.x !== 0 && selectedCluster.y !== 0) {
+            dispatch(allActions.galaxyActions.removeCluster(selectedCluster))
+            setDirty(false)
+        }
     }
 
     const panes = [
@@ -75,8 +106,8 @@ function ClusterEditorTab({ clusters }) {
             <Dropdown placeholder='Cluster' value={clusterDropdownValue} search selection options={GalaxyService.getClusterOptions(clusters)}
                 onChange={switchSelectedCluster} />
             &nbsp;
-            <Button secondary>Delete</Button>
-            <Button primary>Add</Button>
+            <Button secondary onClick={removeCluster}>Delete</Button>
+            <Button primary onClick={addNewCluster}>Add</Button>
             <Form onSubmit={handleSubmit}>
                 <Tab panes={panes} />
                 <br />

@@ -39,6 +39,8 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  
     const colors = GalaxyService.getFactionColors();
 
     const Hex = Honeycomb.extendHex({

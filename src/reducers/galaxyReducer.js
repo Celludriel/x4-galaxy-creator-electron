@@ -37,22 +37,6 @@ const defaultState = {
     }
 }
 
-/*
-case UPDATE_PERSON: 
-    return {
-        ...state, 
-        currentPeople: state.currentPeople.map(person => (person.id === action.payload.id) ? action.payload : person),
-    };
-    
-    {...state,
-        galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.id === action.data.id) ? action.data : cluster)}
-    }
-}
-    
-    
-    */
-
-
 const galaxyReducer = (state = defaultState, action) => {
     switch (action.type) {
         case "LOAD_GALAXY":
@@ -63,6 +47,13 @@ const galaxyReducer = (state = defaultState, action) => {
             return {...state,
                 galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.id === action.data.id) ? action.data : cluster)}
             }
+        case "ADD_CLUSTER":
+            return {...state,
+                galaxy: { ...state.galaxy, clusters: [action.data, ...state.galaxy.clusters]}
+            }
+        case "REMOVE_CLUSTER":
+            return {...state,
+                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.id === action.data.id) ? null : cluster)}}
         default:
             return state
     }
