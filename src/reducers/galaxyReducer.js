@@ -1,9 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const defaultState = {
     "galaxy": {
         "seed": 0,
         "galaxyName": "",
         "galaxyPrefix": "",
-        "galaxyOptions": {},
+        "galaxyOptions": {
+            "addDoubleTravelSpeed": false
+        },
         "description": "",
         "author": "",
         "version": "1",
@@ -12,7 +16,7 @@ const defaultState = {
         "minRandomBelts": 0,
         "maxRandomBelts": 0,
         "clusters": [{
-            "id": "01",
+            "id": uuidv4(),
             "name": "",
             "description": "",
             "music": "",
@@ -33,10 +37,32 @@ const defaultState = {
     }
 }
 
+/*
+case UPDATE_PERSON: 
+    return {
+        ...state, 
+        currentPeople: state.currentPeople.map(person => (person.id === action.payload.id) ? action.payload : person),
+    };
+    
+    {...state,
+        galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.id === action.data.id) ? action.data : cluster)}
+    }
+}
+    
+    
+    */
+
+
 const galaxyReducer = (state = defaultState, action) => {
     switch (action.type) {
         case "LOAD_GALAXY":
-            return {...state, galaxy: action.data}
+            return {...state, galaxy: action.data}        
+        case "UPDATE_GALAXY":
+            return {...state, galaxy: {...state.galaxy, ...action.data}}        
+        case "UPDATE_CLUSTER":
+            return {...state,
+                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.id === action.data.id) ? action.data : cluster)}
+            }
         default:
             return state
     }

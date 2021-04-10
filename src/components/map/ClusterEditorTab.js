@@ -1,34 +1,87 @@
-import {Button, Dropdown, Tab} from "semantic-ui-react";
+import { Button, Dropdown, Tab, Form } from "semantic-ui-react";
 import ClusterDetailsTab from "./ClusterDetailsTab";
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import ClusterConnectionsTab from "./ClusterConnectionsTab";
 import ClusterStationsTab from "./ClusterStationsTab";
+import GalaxyService from './../../service/galaxyservice';
+import allActions from './../../actions/index';
+import { useDispatch } from 'react-redux';
 
-function ClusterEditorTab({clusters}) {
-    const [selectedCluster, setSelectedCluster] = useState();
+function ClusterEditorTab({ clusters }) {
+    const dispatch = useDispatch()
+    const [selectedCluster, setSelectedCluster] = useState(clusters[0])
+    const [clusterDropdownValue, setClusterDropdownValue] = useState(0)
+
+    const formValue = {
+        "id": selectedCluster.id,
+        "name": selectedCluster.name,
+        "description": selectedCluster.description,
+        "music": selectedCluster.music,
+        "sunlight": selectedCluster.sunlight,
+        "economy": selectedCluster.economy,
+        "security": selectedCluster.security,
+        "x": selectedCluster.x,
+        "y": selectedCluster.y,
+        "backdrop": selectedCluster.backdrop,
+        "noBelts": selectedCluster.noBelts,
+        "connections": selectedCluster.connections,
+        "belts": selectedCluster.belts,
+        "stations": selectedCluster.stations,
+        "spaceObjects": selectedCluster.spaceObjects
+    }
+
+    const [dirty, setDirty] = useState()
+    const [form, setForm] = useState(formValue)
+
+    useEffect(() => {
+        setSelectedCluster(clusters[0])
+        setClusterDropdownValue(0)
+        setForm(formValue)
+    }, [clusters])
+
+    useEffect(() => {
+        setForm(formValue)
+    }, [selectedCluster])
+
+    const formUpdate = (form) => {
+        console.log("formupdate");
+        setDirty(true)
+        setForm(form)
+        console.log(form)
+    }
+
+    const switchSelectedCluster = (evt, obj) => {
+        console.log("switchSelectedCluster");
+        setDirty(false)
+        setSelectedCluster(clusters[obj.value])
+        setClusterDropdownValue(obj.value)
+    }
+
+    const handleSubmit = (evt) => {
+        console.log("handleSubmit");
+        evt.preventDefault();
+        dispatch(allActions.galaxyActions.updateClusterInGalaxy(form))
+        setDirty(false)
+    }
 
     const panes = [
-        {menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab selectedCluster={selectedCluster}/></Tab.Pane>},
-        {menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab selectedCluster={selectedCluster}/></Tab.Pane>},
-        {menuItem: 'Stations', render: () => <Tab.Pane><ClusterStationsTab selectedCluster={selectedCluster}/></Tab.Pane>},
+        { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} /></Tab.Pane> },
+        { menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
+        { menuItem: 'Stations', render: () => <Tab.Pane><ClusterStationsTab form={form} setForm={formUpdate} /></Tab.Pane> },
     ]
-
-    const clusterOptions = clusters.map((cluster, index) => {
-        return {
-            key: index,
-            text: `${cluster.name} (${cluster.x},${cluster.y})`,
-            value: index
-        }
-    })
 
     return (
         <div>
-            <Dropdown placeholder='Cluster' search selection options={clusterOptions}
-                      onChange={(evt, obj) => setSelectedCluster(clusters[obj.value])}/>
+            <Dropdown placeholder='Cluster' value={clusterDropdownValue} search selection options={GalaxyService.getClusterOptions(clusters)}
+                onChange={switchSelectedCluster} />
             &nbsp;
             <Button secondary>Delete</Button>
             <Button primary>Add</Button>
-            <Tab panes={panes}/>
+            <Form onSubmit={handleSubmit}>
+                <Tab panes={panes} />
+                <br />
+                <Form.Button primary disabled={!dirty}>Save Cluster</Form.Button>
+            </Form>
         </div>
     )
 }

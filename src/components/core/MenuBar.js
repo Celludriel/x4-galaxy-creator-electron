@@ -9,7 +9,6 @@ function MenuBar() {
     const openFile = () => {
         window.electron.openFileDialog()
             .then((galaxyJsonObject) => {
-                console.log(galaxyJsonObject);
                 if(galaxyJsonObject !== null){
                     dispatch(allActions.galaxyActions.loadGalaxy(galaxyJsonObject))
                 }

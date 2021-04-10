@@ -57,6 +57,61 @@ const GalaxyService = {
             return sorted_keys[0];
         }
         return null;
+    },
+    getClusterDataForId: (id, clusters) => {
+        return clusters.filter((cluster) => { if(cluster.id === id) { return cluster } else { return null } })[0] 
+    },
+    getClusterOptions: (clusters) => {
+        return clusters !== undefined ? clusters.map((cluster, index) => {
+            return {
+                key: index,
+                text: `${cluster.name} (${cluster.x},${cluster.y})`,
+                value: index
+            }
+        }) : []
+    },
+    getStationOptions: () => {
+        return [
+            {key: 'SHIPYARD',text: 'Shipyard',value: 'SHIPYARD'},
+            {key: 'WHARF',text: 'Wharf',value: 'WHARF'},
+            {key: 'EQUIP',text: 'Equipment Dock',value: 'EQUIP'},
+            {key: 'DEFENCE',text: 'Defense station',value: 'DEFENCE'},
+            {key: 'TRADE',text: 'Trade station',value: 'TRADE'},
+            {key: 'PIRATEBASE',text: 'Pirate base',value: 'PIRATEBASE'},
+            {key: 'PIRATEDOCK',text: 'Pirate dock',value: 'PIRATEDOCK'},
+            {key: 'TELADI_RING',text: 'Teladi ring',value: 'TELADI_RING'},
+        ]
+    },
+    getRaceOptions: () => {
+        return [
+            {key: 'ARGON',text: 'Argon',value: 'ARGON'},
+            {key: 'TELADI',text: 'Teladi',value: 'TELADI'},
+            {key: 'PARANID',text: 'Paranid',value: 'PARANID'},
+            {key: 'XENON',text: 'Xenon',value: 'XENON'},
+            {key: 'SPLIT',text: 'Split',value: 'SPLIT'},
+            {key: 'TERRAN',text: 'Terran',value: 'PIRATEDOCK'},
+        ]
+    },
+    getFactionOptions: () => {
+        return [
+            {key: 'ARGON',text: 'Argon',value: 'ARGON'},
+            {key: 'ANTIGONE',text: 'Antigone',value: 'ANTIGONE'},
+            {key: 'HATIKVAH',text: 'Hatikvah',value: 'HATIKVAH'},
+            {key: 'PARANID',text: 'Paranid',value: 'PARANID'},
+            {key: 'HOLYORDER',text: 'Holy Order',value: 'HOLYORDER'},
+            {key: 'ALLIANCE',text: 'Alliance',value: 'ALLIANCE'},
+            {key: 'TELADI',text: 'Teladi',value: 'TELADI'},
+            {key: 'MINISTRY',text: 'Ministry',value: 'MINISTRY'},
+            {key: 'SCALEPLATE',text: 'Scale Plate',value: 'SCALEPLATE'},
+            {key: 'XENON',text: 'Xenon',value: 'XENON'},
+            {key: 'SPLIT',text: 'Split',value: 'SPLIT'},
+            {key: 'FREESPLIT',text: 'Free Split',value: 'FREESPLIT'},
+            {key: 'COURT',text: 'Court',value: 'COURT'},
+            {key: 'FALLENFAMILIES',text: 'Fallen Families',value: 'FALLENFAMILIES'},
+            {key: 'TERRAN',text: 'Terran',value: 'PIRATEDOCK'},
+            {key: 'PIONEER',text: 'Pioneer',value: 'PIONEER'},
+            {key: 'YAKI',text: 'Yaki',value: 'YAKI'},
+        ]
     }
 };
 
