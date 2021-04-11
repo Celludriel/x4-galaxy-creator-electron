@@ -1,4 +1,3 @@
-// Preload (Isolated World)
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld(
@@ -12,6 +11,9 @@ contextBridge.exposeInMainWorld(
         },
         createMod: async (jsonFile, contents) => {
             return await ipcRenderer.invoke('create_mod', jsonFile, contents)
+        },
+        exit: async () => {
+            return await ipcRenderer.invoke('exit', [])
         },
     }
 )

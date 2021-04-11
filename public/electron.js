@@ -142,3 +142,7 @@ ipcMain.handle('save_file_dialog', async (event, arg) => {
 ipcMain.handle('create_mod', async (event, jsonFile, contents) => {
     return await createMod(jsonFile, contents)
 })
+
+ipcMain.handle('exit', async (event, arg) => {
+    return app.exit()
+})

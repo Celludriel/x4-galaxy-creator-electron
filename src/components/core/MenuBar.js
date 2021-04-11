@@ -40,6 +40,10 @@ function MenuBar() {
         }       
     }
 
+    const exit = () => {
+        window.electron.exit()
+    }
+
     return (
         <Menu>
             <Dropdown item text='File'>
@@ -48,7 +52,7 @@ function MenuBar() {
                     <Dropdown.Item onClick={openFile}>Load</Dropdown.Item>
                     <Dropdown.Item onClick={saveFile}>Save</Dropdown.Item>
                     <Dropdown.Item disabled={filePath === undefined} onClick={createMod}>Create Mod</Dropdown.Item>
-                    <Dropdown.Item>Exit</Dropdown.Item>
+                    <Dropdown.Item onClick={exit}>Exit</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             <Dropdown item text='Editors'>
