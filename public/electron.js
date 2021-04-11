@@ -74,7 +74,9 @@ app.on("activate", () => {
 
 const loadFile = async () => {
     try {
-        const dialogAsync = dialog.showOpenDialog(null, { properties: ['openFile', 'multiSelections'] });
+        const dialogAsync = dialog.showOpenDialog(null, { properties: ['openFile'], filters: [
+            { name: 'Json', extensions: ['json'] }
+          ]});
         const chosenFiles = await dialogAsync;
         if (chosenFiles && chosenFiles.canceled === false) {
             let configPath = chosenFiles.filePaths[0];
@@ -87,6 +89,27 @@ const loadFile = async () => {
     }
 }
 
+const saveFile = async (contents) => {
+    try {
+        const dialogAsync = dialog.showSaveDialog(null, { properties: ['openFile'], filters: [
+            { name: 'Json', extensions: ['json'] }
+          ]});
+        const chosenFiles = await dialogAsync;
+        if (chosenFiles && chosenFiles.canceled === false) {
+            let configPath = chosenFiles.filePath;
+            fs.writeFile(configPath, contents, 'utf-8', () => {
+                console.log("save succeeded")
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 ipcMain.handle('open_file_dialog', async (event, arg) => {
     return await loadFile()
+})
+
+ipcMain.handle('save_file_dialog', async (event, arg) => {
+    return await saveFile(arg)
 })
