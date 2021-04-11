@@ -1,28 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Grid} from "semantic-ui-react";
 import MenuBar from "./MenuBar";
 import Map from "../map/Map";
 import {useSelector} from "react-redux";
 import MapEditor from "../map/MapEditor";
+import EconomyEditor from './../economy/EconomyEditor';
 
 function MainContainer() {
+    const [activeEditor, setActiveEditor] = useState("MAP_EDITOR");
     const clusters = useSelector(state => state.galaxyReducer.galaxy.clusters);
 
     return (
         <Grid padded={true} divided={true}>
             <Grid.Row columns={1}>
                 <Grid.Column>
-                    <MenuBar/>
+                    <MenuBar setEditor={setActiveEditor} />
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns={2}>
-                <Grid.Column textAlign='center'>
-                    <Map size={40} width={25} height={25} clusters={clusters}/>
-                </Grid.Column>
-                <Grid.Column>
-                    <MapEditor clusters={clusters}/>
-                </Grid.Column>
-            </Grid.Row>
+            {
+                activeEditor === "MAP_EDITOR" && 
+                <Grid.Row columns={2}>
+                    <Grid.Column textAlign='center'>
+                        <Map size={40} width={25} height={25} clusters={clusters}/>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <MapEditor clusters={clusters}/>
+                    </Grid.Column>
+                </Grid.Row>
+            }
+            {
+                activeEditor === "ECONOMY_EDITOR" && 
+                <Grid.Row columns={1}>
+                    <Grid.Column textAlign='center'>
+                        <EconomyEditor />
+                    </Grid.Column>
+                </Grid.Row>
+            }            
             <Grid.Row columns={1}>
                 <Grid.Column>
                     StatusBar

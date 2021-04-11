@@ -1,7 +1,8 @@
 import galaxyActions from './galaxyactions'
+import economyActions from './economyactions'
 
 const allActions = {
-    galaxyActions
+    galaxyActions, economyActions
 }
 
 export default allActions

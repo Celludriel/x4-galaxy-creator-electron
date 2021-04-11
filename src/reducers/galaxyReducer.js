@@ -56,6 +56,14 @@ const galaxyReducer = (state = defaultState, action) => {
         case "REMOVE_CLUSTER":
             return {...state,
                 galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.id === action.data.id) ? null : cluster)}}
+        case "UPDATE_PRODUCT":
+            return {...state,
+                galaxy: { ...state.galaxy, products: state.galaxy.products.map(product => (product.id === action.data.id) ? action.data : product)}
+            }
+        case "ADD_PRODUCT":
+            return {...state,
+                galaxy: { ...state.galaxy, products: [action.data, ...state.galaxy.products]}
+            }
         default:
             return state
     }

@@ -113,10 +113,19 @@ const GalaxyService = {
             {key: 'YAKI',text: 'Yaki',value: 'YAKI'},
         ]
     },
-    getFactionHqOptions: (clusters) => {
+    getFactionHqOptions: () => {
         let allHqFactions = ["","ALLIANCE","TELADI","HOLYORDER","ARGON","PARANID",
         "MINISTRY","HATIKVAH","SCALEPLATE","ANTIGONE"]
         return allHqFactions.map((hq, index) => {return {key: hq,text: hq,value: hq}})
+    },
+    getWareOptions: () => {
+        let allWares = ["advancedcomposites","advancedelectronics","antimattercells","antimatterconverters","claytronics","dronecomponents",
+        "energycells","engineparts","fieldcoils","foodrations","graphene","helium","hullparts","hydrogen","ice","majadust","majasnails","meat",
+        "medicalsupplies","methane","microchips","missilecomponents","nividium","nostropoil","ore","plasmaconductors","quantumtubes","refinedmetals",
+        "scanningarrays","shieldcomponents","silicon","siliconwafers","smartchips","software_economymk1","sojabeans","sojahusk","spacefuel","spaceweed",
+        "spices","sunriseflowers","superfluidcoolant","swampplant","teladianium","turretcomponents","water","weaponcomponents","wheat","cheltmeat", 
+        "scruffinfruits","computronicsubstrate","metallicmicrolattice","proteinpaste","siliconcarbide","stimulants","terranmre"]
+        return allWares.map((ware) => {return {key: ware,text: ware,value: ware}})
     }
 };
 

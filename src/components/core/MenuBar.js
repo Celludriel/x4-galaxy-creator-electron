@@ -4,7 +4,7 @@ import {Dropdown, Menu} from "semantic-ui-react";
 import allActions from './../../actions/index';
 import { useSelector } from 'react-redux';
 
-function MenuBar() {
+function MenuBar({setEditor}) {
     const dispatch = useDispatch()
     const galaxy = useSelector(state => state.galaxyReducer.galaxy);
     const [filePath, setFilePath] = useState();
@@ -57,9 +57,9 @@ function MenuBar() {
             </Dropdown>
             <Dropdown item text='Editors'>
                 <Dropdown.Menu>
-                    <Dropdown.Item>Map Editor</Dropdown.Item>
-                    <Dropdown.Item>Job Editor</Dropdown.Item>
-                    <Dropdown.Item>Economy Editor</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setEditor("MAP_EDITOR")}>Map Editor</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setEditor("JOB_EDITOR")}>Job Editor</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setEditor("ECONOMY_EDITOR")}>Economy Editor</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </Menu>
