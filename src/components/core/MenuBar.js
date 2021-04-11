@@ -24,11 +24,15 @@ function MenuBar() {
             .catch(error => console.log(error))
     }
 
+    const createNewGalaxy = () => {
+        dispatch(allActions.galaxyActions.newGalaxy())
+    }
+
     return (
         <Menu>
             <Dropdown item text='File'>
                 <Dropdown.Menu>
-                    <Dropdown.Item>New</Dropdown.Item>
+                    <Dropdown.Item onClick={createNewGalaxy}>New</Dropdown.Item>
                     <Dropdown.Item onClick={openFile}>Load</Dropdown.Item>
                     <Dropdown.Item onClick={saveFile}>Save</Dropdown.Item>
                     <Dropdown.Item>Create Mod</Dropdown.Item>

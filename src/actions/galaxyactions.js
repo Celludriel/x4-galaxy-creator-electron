@@ -12,6 +12,13 @@ const saveGalaxy = (json) => {
     }
 }
 
+const newGalaxy = () => {
+    return {
+        type: "NEW_GALAXY",
+        data: null
+    } 
+}
+
 const updateGalaxy = (segment) => {
     return {
         type: "UPDATE_GALAXY",
@@ -41,4 +48,4 @@ const updateClusterInGalaxy = (cluster) => {
 }
 
 
-export default { loadGalaxy, saveGalaxy, updateGalaxy, addNewCluster, updateClusterInGalaxy, removeCluster }
+export default { loadGalaxy, saveGalaxy, newGalaxy, updateGalaxy, addNewCluster, updateClusterInGalaxy, removeCluster }
