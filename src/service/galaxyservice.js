@@ -108,7 +108,8 @@ const GalaxyService = {
             {key: 'FREESPLIT',text: 'Free Split',value: 'FREESPLIT'},
             {key: 'COURT',text: 'Court',value: 'COURT'},
             {key: 'FALLENFAMILIES',text: 'Fallen Families',value: 'FALLENFAMILIES'},
-            {key: 'TERRAN',text: 'Terran',value: 'PIRATEDOCK'},
+            {key: 'TERRAN',text: 'Terran',value: 'TERRAN'},
+            {key: 'BUCCANEERS',text: 'Buccaneers',value: 'BUCCANEERS'},
             {key: 'PIONEER',text: 'Pioneer',value: 'PIONEER'},
             {key: 'YAKI',text: 'Yaki',value: 'YAKI'},
         ]
