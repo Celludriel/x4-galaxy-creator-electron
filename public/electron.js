@@ -46,7 +46,7 @@ app.whenReady().then(() => {
     createWindow();
 
     if (isDev) {
-        installExtension([REACT_DEVELOPER_TOOLS,REDUX_DEVTOOLS])
+        installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
             .then(name => console.log(`Added Extension:  ${name}`))
             .catch(error => console.log(`An error occurred: , ${error}`));
     }
@@ -74,14 +74,16 @@ app.on("activate", () => {
 
 const loadFile = async () => {
     try {
-        const dialogAsync = dialog.showOpenDialog(null, { properties: ['openFile'], filters: [
-            { name: 'Json', extensions: ['json'] }
-          ]});
+        const dialogAsync = dialog.showOpenDialog(null, {
+            properties: ['openFile'], filters: [
+                { name: 'Json', extensions: ['json'] }
+            ]
+        });
         const chosenFiles = await dialogAsync;
         if (chosenFiles && chosenFiles.canceled === false) {
             let configPath = chosenFiles.filePaths[0];
             let fileContents = fs.readFileSync(configPath, 'utf-8');
-            return JSON.parse(fileContents);
+            return [JSON.parse(fileContents), configPath];
         }
         return null;
     } catch (err) {
@@ -91,16 +93,39 @@ const loadFile = async () => {
 
 const saveFile = async (contents) => {
     try {
-        const dialogAsync = dialog.showSaveDialog(null, { properties: ['openFile'], filters: [
-            { name: 'Json', extensions: ['json'] }
-          ]});
+        const dialogAsync = dialog.showSaveDialog(null, {
+            properties: ['openFile'], filters: [
+                { name: 'Json', extensions: ['json'] }
+            ]
+        });
         const chosenFiles = await dialogAsync;
         if (chosenFiles && chosenFiles.canceled === false) {
             let configPath = chosenFiles.filePath;
             fs.writeFile(configPath, contents, 'utf-8', () => {
                 console.log("save succeeded")
             })
+            return configPath
         }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const createMod = async (jsonFile, contents) => {
+    try {
+        fs.writeFile(jsonFile, contents, 'utf-8', () => {
+            let jarFile = __dirname + '/jar/universe-generator.jar'
+            let runCommand = 'java -cp ' + "\"" + jarFile + "\"" + " be.celludriel.universegenerator.main.UniverseGeneratorMain " + "\"" + jsonFile + "\""
+
+            var exec = require('child_process').exec
+            child = exec(runCommand, function (error, stdout, stderr) {
+                if (error !== null) {
+                    console.log('exec error: ' + error)
+                } else {
+                    console.log('stdout: ' + stdout);
+                }
+            })
+        })
     } catch (err) {
         console.log(err);
     }
@@ -112,4 +137,8 @@ ipcMain.handle('open_file_dialog', async (event, arg) => {
 
 ipcMain.handle('save_file_dialog', async (event, arg) => {
     return await saveFile(arg)
+})
+
+ipcMain.handle('create_mod', async (event, jsonFile, contents) => {
+    return await createMod(jsonFile, contents)
 })

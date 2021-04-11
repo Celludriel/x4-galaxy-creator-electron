@@ -9,6 +9,9 @@ contextBridge.exposeInMainWorld(
         },
         saveFileDialog: async (contents) => {
             return await ipcRenderer.invoke('save_file_dialog', contents)
-        }
+        },
+        createMod: async (jsonFile, contents) => {
+            return await ipcRenderer.invoke('create_mod', jsonFile, contents)
+        },
     }
 )

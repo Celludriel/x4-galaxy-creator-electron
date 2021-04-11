@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
 import {Dropdown, Menu} from "semantic-ui-react";
 import allActions from './../../actions/index';
@@ -7,12 +7,14 @@ import { useSelector } from 'react-redux';
 function MenuBar() {
     const dispatch = useDispatch()
     const galaxy = useSelector(state => state.galaxyReducer.galaxy);
+    const [filePath, setFilePath] = useState();
 
     const openFile = () => {
         window.electron.openFileDialog()
-            .then((galaxyJsonObject) => {
-                if(galaxyJsonObject !== null){
-                    dispatch(allActions.galaxyActions.loadGalaxy(galaxyJsonObject))
+            .then((fileData) => {
+                if(fileData[0] !== null){
+                    dispatch(allActions.galaxyActions.loadGalaxy(fileData[0]))
+                    setFilePath(fileData[1])
                 }
             })
             .catch(error => console.log(error))
@@ -20,12 +22,22 @@ function MenuBar() {
 
     const saveFile = () => {
         window.electron.saveFileDialog(JSON.stringify(galaxy))
-            .then(console.log("save succeeded"))
+            .then((filePath) => {
+                if(filePath !== null){
+                    setFilePath(filePath)
+                }
+            })
             .catch(error => console.log(error))
     }
 
     const createNewGalaxy = () => {
         dispatch(allActions.galaxyActions.newGalaxy())
+    }
+
+    const createMod = () => {
+        if(filePath !== undefined){
+            window.electron.createMod(filePath, JSON.stringify(galaxy))
+        }       
     }
 
     return (
@@ -35,7 +47,7 @@ function MenuBar() {
                     <Dropdown.Item onClick={createNewGalaxy}>New</Dropdown.Item>
                     <Dropdown.Item onClick={openFile}>Load</Dropdown.Item>
                     <Dropdown.Item onClick={saveFile}>Save</Dropdown.Item>
-                    <Dropdown.Item>Create Mod</Dropdown.Item>
+                    <Dropdown.Item disabled={filePath === undefined} onClick={createMod}>Create Mod</Dropdown.Item>
                     <Dropdown.Item>Exit</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
