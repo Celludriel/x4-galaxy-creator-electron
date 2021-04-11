@@ -4,10 +4,9 @@ import {Dropdown, Menu} from "semantic-ui-react";
 import allActions from './../../actions/index';
 import { useSelector } from 'react-redux';
 
-function MenuBar({setEditor}) {
+function MenuBar({setEditor, filePath, setFilePath}) {
     const dispatch = useDispatch()
     const galaxy = useSelector(state => state.galaxyReducer.galaxy);
-    const [filePath, setFilePath] = useState();
 
     const openFile = () => {
         window.electron.openFileDialog()

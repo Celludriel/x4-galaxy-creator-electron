@@ -5,16 +5,18 @@ import Map from "../map/Map";
 import {useSelector} from "react-redux";
 import MapEditor from "../map/MapEditor";
 import EconomyEditor from './../economy/EconomyEditor';
+import JobEditor from './../job/JobEditor';
 
 function MainContainer() {
     const [activeEditor, setActiveEditor] = useState("MAP_EDITOR");
+    const [filePath, setFilePath] = useState();
     const clusters = useSelector(state => state.galaxyReducer.galaxy.clusters);
 
     return (
         <Grid padded={true} divided={true}>
             <Grid.Row columns={1}>
                 <Grid.Column>
-                    <MenuBar setEditor={setActiveEditor} />
+                    <MenuBar setEditor={setActiveEditor} filePath={filePath} setFilePath={setFilePath} />
                 </Grid.Column>
             </Grid.Row>
             {
@@ -33,6 +35,14 @@ function MainContainer() {
                 <Grid.Row columns={1}>
                     <Grid.Column textAlign='center'>
                         <EconomyEditor />
+                    </Grid.Column>
+                </Grid.Row>
+            }            
+            {
+                activeEditor === "JOB_EDITOR" && 
+                <Grid.Row columns={1}>
+                    <Grid.Column textAlign='center'>
+                        <JobEditor />
                     </Grid.Column>
                 </Grid.Row>
             }            

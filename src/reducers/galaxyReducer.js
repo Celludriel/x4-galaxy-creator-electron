@@ -55,7 +55,8 @@ const galaxyReducer = (state = defaultState, action) => {
             }
         case "REMOVE_CLUSTER":
             return {...state,
-                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.id === action.data.id) ? null : cluster)}}
+                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.id === action.data.id) ? null : cluster)}
+            }
         case "UPDATE_PRODUCT":
             return {...state,
                 galaxy: { ...state.galaxy, products: state.galaxy.products.map(product => (product.id === action.data.id) ? action.data : product)}
@@ -63,6 +64,22 @@ const galaxyReducer = (state = defaultState, action) => {
         case "ADD_PRODUCT":
             return {...state,
                 galaxy: { ...state.galaxy, products: [action.data, ...state.galaxy.products]}
+            }
+        case "REMOVE_PRODUCT":
+            return {...state,
+                galaxy: { ...state.galaxy, products: state.galaxy.products.filter(product => (product.id === action.data.id) ? null : product)}
+            }
+        case "UPDATE_JOB":
+            return {...state,
+                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.map(job => (job.id === action.data.id) ? action.data : job)}
+            }
+        case "ADD_JOB":
+            return {...state,
+                galaxy: { ...state.galaxy, jobs: [action.data, ...state.galaxy.jobs]}
+            }
+        case "REMOVE_JOB":
+            return {...state,
+                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.filter(job => (job.id === action.data.id) ? null : job)}
             }
         default:
             return state

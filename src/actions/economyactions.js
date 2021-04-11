@@ -12,4 +12,11 @@ const saveNewProduct = (product) => {
     }
 }
 
-export default { saveProduct, saveNewProduct }
+const removeProduct = (product) => {
+    return {
+        type: "REMOVE_PRODUCT",
+        data: product
+    }
+}
+
+export default { saveProduct, saveNewProduct, removeProduct }

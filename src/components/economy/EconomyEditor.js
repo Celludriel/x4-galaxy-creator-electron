@@ -50,11 +50,15 @@ function EconomyEditor() {
         }
     }
 
+    const removeProduct = (product) => {
+        dispatch(allActions.economyActions.removeProduct(product))
+    }
+
     return (
         <Fragment>
             {
                 editorState === "MASTER" &&
-                <EconomyMaster products={galaxy.products} selectProduct={selectProduct} prepareNewProduct={prepareNewProduct} />
+                <EconomyMaster products={galaxy.products} selectProduct={selectProduct} prepareNewProduct={prepareNewProduct} removeProduct={removeProduct} />
             }
             {
                 editorState === "DETAILS" &&
