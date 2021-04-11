@@ -69,11 +69,11 @@ function ClusterStationsTab({ form, setForm }) {
                             <Form.Dropdown placeholder='Owner' search selection options={GalaxyService.getRaceOptions()}
                                 onChange={(e, obj) => {
                                     setStationForm({ ...stationForm, owner: obj.value })
-                                }} /><br />
+                                }} />
                             <Form.Dropdown placeholder='Faction' search selection options={GalaxyService.getFactionOptions()}
                                 onChange={(e, obj) => {
                                     setStationForm({ ...stationForm, faction: obj.value })
-                                }} /><br />
+                                }} />
                             <Form.Button primary type="button" onClick={addStationToCluster}>Add</Form.Button>
                         </Form.Group>
                     </Table.HeaderCell>

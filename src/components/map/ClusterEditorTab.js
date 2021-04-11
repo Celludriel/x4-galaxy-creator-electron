@@ -3,6 +3,7 @@ import ClusterDetailsTab from "./ClusterDetailsTab";
 import { useState, useEffect } from "react";
 import ClusterConnectionsTab from "./ClusterConnectionsTab";
 import ClusterStationsTab from "./ClusterStationsTab";
+import ClusterPlayerStartTab from './ClusterPlayerStartTab';
 import GalaxyService from './../../service/galaxyservice';
 import allActions from './../../actions/index';
 import { useDispatch } from 'react-redux';
@@ -25,6 +26,7 @@ function ClusterEditorTab({ clusters }) {
         "y": selectedCluster.y,
         "backdrop": selectedCluster.backdrop,
         "factionHq": selectedCluster.factionHq !== undefined ? selectedCluster.factionHq : "",
+        "factionStart":  selectedCluster.factionStart !== undefined ? selectedCluster.factionStart : null,
         "noBelts": selectedCluster.noBelts,
         "connections": selectedCluster.connections,
         "belts": selectedCluster.belts,
@@ -81,6 +83,8 @@ function ClusterEditorTab({ clusters }) {
             "y": "NaN",
             "backdrop": "",
             "noBelts": false,
+            "factionHq": "",
+            "factionStart": null,
             "connections": [],
             "belts": [],
             "stations": [],
@@ -100,6 +104,7 @@ function ClusterEditorTab({ clusters }) {
         { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Stations', render: () => <Tab.Pane><ClusterStationsTab form={form} setForm={formUpdate} /></Tab.Pane> },
+        { menuItem: 'Player Start', render: () => <Tab.Pane><ClusterPlayerStartTab form={form} setForm={formUpdate} /></Tab.Pane> },
     ]
 
     return (
