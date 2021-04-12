@@ -24,10 +24,10 @@ function JobDetails({ job, saveJob, setEditorState }) {
 
     const panes = [
         { menuItem: 'Basic Information', render: () => <Tab.Pane><BasicInformationTab form={form} setForm={updateForm} /></Tab.Pane> },
-        { menuItem: 'Location', render: () => <Tab.Pane><LocationTab /></Tab.Pane> },
-        { menuItem: 'Quota', render: () => <Tab.Pane><QuotaTab /></Tab.Pane> },
-        { menuItem: 'Ship', render: () => <Tab.Pane><ShipTab /></Tab.Pane> },
-        { menuItem: 'Order', render: () => <Tab.Pane><OrderTab /></Tab.Pane> },
+        { menuItem: 'Location', render: () => <Tab.Pane><LocationTab form={form} setForm={updateForm}/></Tab.Pane> },
+        { menuItem: 'Quota', render: () => <Tab.Pane><QuotaTab form={form} setForm={updateForm} /></Tab.Pane> },
+        { menuItem: 'Ship', render: () => <Tab.Pane><ShipTab form={form} setForm={updateForm}/></Tab.Pane> },
+        { menuItem: 'Order', render: () => <Tab.Pane><OrderTab form={form} setForm={updateForm} /></Tab.Pane> },
     ]
 
     return (

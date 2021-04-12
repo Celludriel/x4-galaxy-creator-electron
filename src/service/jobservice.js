@@ -26,8 +26,20 @@ const JobService = {
             {key: 'terran',text: 'Terran',value: 'terran'},
             {key: 'pioneers',text: 'Pioneer',value: 'pioneers'},
             {key: 'yaki',text: 'Yaki',value: 'yaki'},
+            {key: 'ownerless',text: 'ownerless',value: 'ownerless'},
+            {key: 'faction.player',text: 'faction.player',value: 'faction.player'}
         ]
     },
+    getFactionRaceOptions: () => {
+        return [
+            {key: 'argon',text: 'Argon',value: 'argon'},
+            {key: 'paranid',text: 'Paranid',value: 'paranid'},
+            {key: 'teladi',text: 'Teladi',value: 'teladi'},
+            {key: 'xenon',text: 'Xenon',value: 'xenon'},
+            {key: 'split',text: 'Split',value: 'split'},
+            {key: 'terran',text: 'Terran',value: 'terran'}
+        ]
+    },    
     getBasketOptions: () => {
         let baskets = ["advancedelectronics","antimattercells","advancedcomposites","claytronics","dronecomponents","energycells","engineparts","fieldcoils","foodrations","graphene","helium","hullparts",
             "hydrogen","ice","majadust","majasnails","methane","meat","medicalsupplies","microchips","missilecomponents","nividium","nostropoil","ore","plasmaconductors","quantumtubes","refinedmetals",
@@ -38,6 +50,18 @@ const JobService = {
             "metallicmicrolattice","siliconcarbide","proteinpaste","terranmre","stimulants","construction_ships_terran","construction_stations_terran","bio_terran","food_terran","tech_terran","refined_gas_terran",
             "refined_mineral_terran","all_container_terran"]
         return baskets.map((basket, index) => {return {key: basket,text: basket,value: basket}})
+    },
+    getOrderOptions: () => {
+        let orders = ["Recon","TradeRoutine","Middleman","Patrol","Police","Escort","SupplyFleet","MiningRoutine","FindBuildTasks","MoveWait","Plunder"]
+        return orders.map((order, index) => {return {key: order,text: order,value: order}})
+    },
+    getRelationOptions: () => {
+        let relations = ["self","member","neutral","friend","dock","kill","killmilitary","nemesis","enemy"]
+        return relations.map((relation, index) => {return {key: relation,text: relation,value: relation}})
+    },
+    getComparisonOptions: () => {
+        let comparisons = ["exact","ge","gt","le","lt","not"]
+        return comparisons.map((comparison, index) => {return {key: comparison,text: comparison,value: comparison}})
     }
 };
 

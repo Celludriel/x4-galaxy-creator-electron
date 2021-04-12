@@ -97,7 +97,7 @@ function JobEditor() {
             }
             {
                 editorState === "DETAILS" &&
-                <JobDetails job={selectedJob} savejob={saveJob} setEditorState={setEditorState} />
+                <JobDetails job={selectedJob} saveJob={saveJob} setEditorState={setEditorState} />
             }
         </Fragment>
     )
