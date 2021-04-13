@@ -41,11 +41,11 @@ function ClusterDetailsTab({ form, setForm, clusters }) {
             </Form.Group>
             <Form.Group widths={"equal"}>
                 <Form.Dropdown label={"Backdrop"} placeholder='Backdrop' search selection options={backdropOptions}
-                    value={form.backdrop} onChange={e => {
-                        setForm({ ...form, backdrop: e.target.value })}}  />
+                    value={form.backdrop} onChange={(e,obj) => {
+                        setForm({ ...form, backdrop: obj.value })}}  />
                  <Form.Dropdown label={"Faction Hq"} placeholder='Faction Hq' search selection options={GalaxyService.getFactionHqOptions(clusters)}
-                    value={form.factionHq} onChange={e => {
-                        setForm({ ...form, factionHq: e.target.value })}}  />
+                    value={form.factionHq} onChange={(e,obj) => {
+                        setForm({ ...form, factionHq: obj.value })}}  />
             </Form.Group>
             <Form.Group widths={"equal"}>
                 <Form.Checkbox name={"noBelts"} label='Disable belts'

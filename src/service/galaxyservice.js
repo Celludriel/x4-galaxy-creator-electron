@@ -115,9 +115,17 @@ const GalaxyService = {
         ]
     },
     getFactionHqOptions: () => {
-        let allHqFactions = ["","ALLIANCE","TELADI","HOLYORDER","ARGON","PARANID",
-        "MINISTRY","HATIKVAH","SCALEPLATE","ANTIGONE"]
-        return allHqFactions.map((hq, index) => {return {key: hq,text: hq,value: hq}})
+        return [
+            {key: '',text: '',value: null},
+            {key: 'ANTIGONE',text: 'Antigone',value: 'ANTIGONE'},
+            {key: 'HATIKVAH',text: 'Hatikvah',value: 'HATIKVAH'},
+            {key: 'PARANID',text: 'Paranid',value: 'PARANID'},
+            {key: 'HOLYORDER',text: 'Holy Order',value: 'HOLYORDER'},
+            {key: 'ALLIANCE',text: 'Alliance',value: 'ALLIANCE'},
+            {key: 'TELADI',text: 'Teladi',value: 'TELADI'},
+            {key: 'MINISTRY',text: 'Ministry',value: 'MINISTRY'},
+            {key: 'SCALEPLATE',text: 'Scale Plate',value: 'SCALEPLATE'}
+        ]
     },
     getWareOptions: () => {
         let allWares = ["advancedcomposites","advancedelectronics","antimattercells","antimatterconverters","claytronics","dronecomponents",
