@@ -116,7 +116,11 @@ const saveFile = async (contents) => {
 const createMod = async (jsonFile, contents) => {
     try {
         fs.writeFile(jsonFile, contents, 'utf-8', () => {
-            let jarFile = __dirname + '/jar/universe-generator.jar'
+            let jarFile = process.resourcesPath + '/jar/universe-generator.jar'
+            if(isDev){
+                jarFile = __dirname + '/jar/universe-generator.jar'
+            }
+            
             let runCommand = 'java -cp ' + "\"" + jarFile + "\"" + " be.celludriel.universegenerator.main.UniverseGeneratorMain " + "\"" + jsonFile + "\""
 
             var exec = require('child_process').exec
