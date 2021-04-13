@@ -9,6 +9,7 @@ const JobService = {
     },
     getFactionOptions: () => {
         return [
+            {key: '',text: '',value: ''},
             {key: 'argon',text: 'Argon',value: 'argon'},
             {key: 'antigone',text: 'Antigone',value: 'antigone'},
             {key: 'hatikvah',text: 'Hatikvah',value: 'hatikvah'},
@@ -32,6 +33,7 @@ const JobService = {
     },
     getFactionRaceOptions: () => {
         return [
+            {key: '',text: '',value: ''},
             {key: 'argon',text: 'Argon',value: 'argon'},
             {key: 'paranid',text: 'Paranid',value: 'paranid'},
             {key: 'teladi',text: 'Teladi',value: 'teladi'},
@@ -41,7 +43,7 @@ const JobService = {
         ]
     },    
     getBasketOptions: () => {
-        let baskets = ["advancedelectronics","antimattercells","advancedcomposites","claytronics","dronecomponents","energycells","engineparts","fieldcoils","foodrations","graphene","helium","hullparts",
+        let baskets = ["","advancedelectronics","antimattercells","advancedcomposites","claytronics","dronecomponents","energycells","engineparts","fieldcoils","foodrations","graphene","helium","hullparts",
             "hydrogen","ice","majadust","majasnails","methane","meat","medicalsupplies","microchips","missilecomponents","nividium","nostropoil","ore","plasmaconductors","quantumtubes","refinedmetals",
             "scanningarrays","shieldcomponents","silicon","siliconwafers","smartchips","sojabeans","sojahusk","spacefuel","spaceweed","spices","sunriseflowers","superfluidcoolant","swampplant","teladianium",
             "turretcomponents","water","weaponcomponents","wheat","bio","bio_argon","bio_paranid","bio_teladi","construction_ships","construction_stations","energy","equipment","food","food_argon","food_paranid",
@@ -52,15 +54,15 @@ const JobService = {
         return baskets.map((basket, index) => {return {key: basket,text: basket,value: basket}})
     },
     getOrderOptions: () => {
-        let orders = ["Recon","TradeRoutine","Middleman","Patrol","Police","Escort","SupplyFleet","MiningRoutine","FindBuildTasks","MoveWait","Plunder"]
+        let orders = ["","Recon","TradeRoutine","Middleman","Patrol","Police","Escort","SupplyFleet","MiningRoutine","FindBuildTasks","MoveWait","Plunder"]
         return orders.map((order, index) => {return {key: order,text: order,value: order}})
     },
     getRelationOptions: () => {
-        let relations = ["self","member","neutral","friend","dock","kill","killmilitary","nemesis","enemy"]
+        let relations = ["","self","member","neutral","friend","dock","kill","killmilitary","nemesis","enemy"]
         return relations.map((relation, index) => {return {key: relation,text: relation,value: relation}})
     },
     getComparisonOptions: () => {
-        let comparisons = ["exact","ge","gt","le","lt","not"]
+        let comparisons = ["","exact","ge","gt","le","lt","not"]
         return comparisons.map((comparison, index) => {return {key: comparison,text: comparison,value: comparison}})
     }
 };
