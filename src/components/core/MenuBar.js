@@ -72,7 +72,6 @@ function MenuBar({setEditor, filePath, setFilePath}) {
                 </Dropdown.Menu>
             </Dropdown>
         </Menu>
-
     )
 }
 

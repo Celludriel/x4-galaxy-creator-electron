@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Grid} from "semantic-ui-react";
 import MenuBar from "./MenuBar";
+import StatusBar from "./StatusBar";
 import Map from "../map/Map";
 import {useSelector} from "react-redux";
 import MapEditor from "../map/MapEditor";
@@ -15,9 +16,9 @@ function MainContainer() {
         "showCoords": true,
         "showSectorName": false
     });
-    const clusters = useSelector(state => state.galaxyReducer.galaxy.clusters);
+    const galaxy = useSelector(state => state.galaxyReducer.galaxy);
+    const clusters = galaxy.clusters
 
-    console.log(mapDisplay)
     return (
         <Grid padded={true} divided={true}>
             <Grid.Row columns={1}>
@@ -55,7 +56,7 @@ function MainContainer() {
             }            
             <Grid.Row columns={1}>
                 <Grid.Column>
-                    StatusBar
+                    <StatusBar galaxy={galaxy} filePath={filePath} />
                 </Grid.Column>
             </Grid.Row>
         </Grid>
