@@ -1,4 +1,4 @@
-import { Button, Dropdown, Tab, Form } from "semantic-ui-react";
+import {Button, Dropdown, Tab, Form, Confirm} from "semantic-ui-react";
 import ClusterDetailsTab from "./ClusterDetailsTab";
 import { useState, useEffect } from "react";
 import ClusterConnectionsTab from "./ClusterConnectionsTab";
@@ -13,6 +13,11 @@ function ClusterEditorTab({ clusters }) {
     const dispatch = useDispatch()
     const [selectedCluster, setSelectedCluster] = useState(clusters[0])
     const [clusterDropdownValue, setClusterDropdownValue] = useState(0)
+    const [previousClusterDropdownValue, setPreviousClusterDropdownValue] = useState(0)
+    const [clusterSwitchConfirmation, setClusterSwitchConfirmation] = useState({
+        "open": false,
+        "newDropdownValue": null
+    })
 
     const formValue = {
         "id": selectedCluster.id,
@@ -54,13 +59,6 @@ function ClusterEditorTab({ clusters }) {
         console.log(form)
     }
 
-    const switchSelectedCluster = (evt, obj) => {
-        console.log("switchSelectedCluster");
-        setDirty(false)
-        setSelectedCluster(clusters[obj.value])
-        setClusterDropdownValue(obj.value)
-    }
-
     const handleSubmit = (evt) => {
         console.log("handleSubmit");
         evt.preventDefault();
@@ -100,6 +98,33 @@ function ClusterEditorTab({ clusters }) {
         }
     }
 
+    const switchSelectedCluster = (obj) => {
+        console.log("switchSelectedCluster");
+        setDirty(false)
+        setSelectedCluster(clusters[obj.value])
+        setClusterDropdownValue(obj.value)
+    }
+
+    const showConfirmationForSwitchingCluster = (obj) => {
+        if(dirty){
+            setPreviousClusterDropdownValue(clusterDropdownValue)
+            setClusterSwitchConfirmation({
+                "open": true,
+                "newDropdownValue": obj
+            })
+        } else {
+            switchSelectedCluster(obj)
+        }
+    }
+
+    const doClusterSwitch = () => {
+        switchSelectedCluster(clusterSwitchConfirmation.newDropdownValue)
+        setClusterSwitchConfirmation({
+            "open": false,
+            "newDropdownValue": null
+        })
+    }
+
     const panes = [
         { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
@@ -110,7 +135,15 @@ function ClusterEditorTab({ clusters }) {
     return (
         <div>
             <Dropdown placeholder='Cluster' value={clusterDropdownValue} search selection options={GalaxyService.getClusterOptions(clusters)}
-                onChange={switchSelectedCluster} />
+                onChange={(evt,obj) => showConfirmationForSwitchingCluster(obj)} />
+            <Confirm
+                open={clusterSwitchConfirmation.open}
+                onCancel={() => setClusterSwitchConfirmation({
+                    "open": false,
+                    "newDropdownValue": null
+                })}
+                onConfirm={() => doClusterSwitch()}
+            />
             &nbsp;
             <Button secondary onClick={removeCluster}>Delete</Button>
             <Button primary onClick={addNewCluster}>Add</Button>
