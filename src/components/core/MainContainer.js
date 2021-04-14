@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import MapEditor from "../map/MapEditor";
 import EconomyEditor from './../economy/EconomyEditor';
 import JobEditor from './../job/JobEditor';
+import {ToastContainer} from "react-toastify";
 
 function MainContainer() {
     const [activeEditor, setActiveEditor] = useState("MAP_EDITOR");
@@ -16,6 +17,7 @@ function MainContainer() {
         <Grid padded={true} divided={true}>
             <Grid.Row columns={1}>
                 <Grid.Column>
+                    <ToastContainer style={{ width: "1000px" }}/>
                     <MenuBar setEditor={setActiveEditor} filePath={filePath} setFilePath={setFilePath} />
                 </Grid.Column>
             </Grid.Row>

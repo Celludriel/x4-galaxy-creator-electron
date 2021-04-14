@@ -15,7 +15,7 @@ function ClusterDetailsTab({ form, setForm, clusters }) {
     return (
         <Fragment>
             <Form.Group widths={"equal"}>
-                <Form.Input disabled={true} name={"id"} label={"Id"} value={form.id} onChange={e => {
+                <Form.Input name={"id"} label={"Id"} value={form.id} onChange={e => {
                     setForm({ ...form, id: e.target.value })}}/>
                 <Form.Input name={"x"} label={"X"} value={form.x} onChange={e => {
                     setForm({ ...form, x: e.target.value })}} />

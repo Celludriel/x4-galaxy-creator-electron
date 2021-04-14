@@ -1,12 +1,14 @@
 const path = require("path");
+const util = require('util');
 const fs = require('fs');
+const fsPromises = fs.promises;
 
 
-const { app, dialog, ipcMain, BrowserWindow } = require("electron");
+const {app, dialog, ipcMain, BrowserWindow} = require("electron");
 const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
-const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+const {default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS} = require('electron-devtools-installer');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
@@ -37,7 +39,7 @@ function createWindow() {
 
     // Open the DevTools.
     if (isDev) {
-        win.webContents.openDevTools({ mode: "detach" });
+        win.webContents.openDevTools({mode: "detach"});
     }
 }
 
@@ -78,7 +80,7 @@ const loadFile = async () => {
     try {
         const dialogAsync = dialog.showOpenDialog(null, {
             properties: ['openFile'], filters: [
-                { name: 'Json', extensions: ['json'] }
+                {name: 'Json', extensions: ['json']}
             ]
         });
         const chosenFiles = await dialogAsync;
@@ -97,7 +99,7 @@ const saveFile = async (contents) => {
     try {
         const dialogAsync = dialog.showSaveDialog(null, {
             properties: ['openFile'], filters: [
-                { name: 'Json', extensions: ['json'] }
+                {name: 'Json', extensions: ['json']}
             ]
         });
         const chosenFiles = await dialogAsync;
@@ -114,27 +116,16 @@ const saveFile = async (contents) => {
 }
 
 const createMod = async (jsonFile, contents) => {
-    try {
-        fs.writeFile(jsonFile, contents, 'utf-8', () => {
-            let jarFile = process.resourcesPath + '/jar/universe-generator.jar'
-            if(isDev){
-                jarFile = __dirname + '/jar/universe-generator.jar'
-            }
-            
-            let runCommand = 'java -cp ' + "\"" + jarFile + "\"" + " be.celludriel.universegenerator.main.UniverseGeneratorMain " + "\"" + jsonFile + "\""
-
-            var exec = require('child_process').exec
-            child = exec(runCommand, function (error, stdout, stderr) {
-                if (error !== null) {
-                    console.log('exec error: ' + error)
-                } else {
-                    console.log('stdout: ' + stdout);
-                }
-            })
-        })
-    } catch (err) {
-        console.log(err);
+    fs.writeFile(jsonFile, contents, 'utf-8', () => {
+    })
+    let jarFile = process.resourcesPath + '/jar/universe-generator.jar'
+    if (isDev) {
+        jarFile = __dirname + '/jar/universe-generator.jar'
     }
+
+    let runCommand = 'java -cp ' + "\"" + jarFile + "\"" + " be.celludriel.universegenerator.main.UniverseGeneratorMain " + "\"" + jsonFile + "\""
+    const exec = util.promisify(require('child_process').exec);
+    return await exec(runCommand)
 }
 
 ipcMain.handle('open_file_dialog', async (event, arg) => {
