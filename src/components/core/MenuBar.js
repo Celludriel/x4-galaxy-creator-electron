@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {useDispatch} from 'react-redux';
 import {Dropdown, Menu} from "semantic-ui-react";
 import allActions from './../../actions/index';
 import { useSelector } from 'react-redux';
+import {toast} from "react-toastify";
+import ToastConfig from "../../service/ToastConfig";
 
 function MenuBar({setEditor, filePath, setFilePath}) {
     const dispatch = useDispatch()
@@ -21,9 +23,9 @@ function MenuBar({setEditor, filePath, setFilePath}) {
 
     const saveFile = () => {
         window.electron.saveFileDialog(JSON.stringify(galaxy))
-            .then((filePath) => {
-                if(filePath !== null){
-                    setFilePath(filePath)
+            .then((newFilePath) => {
+                if(newFilePath !== null){
+                    setFilePath(newFilePath)
                 }
             })
             .catch(error => console.log(error))
@@ -36,6 +38,14 @@ function MenuBar({setEditor, filePath, setFilePath}) {
     const createMod = () => {
         if(filePath !== undefined){
             window.electron.createMod(filePath, JSON.stringify(galaxy))
+                .then(() => {
+                    toast.info("Success", ToastConfig.getToastConfig())
+                })
+                .catch(
+                    error => {
+                        toast.error(error.message, ToastConfig.getErrorToastConfig())
+                    }
+                )
         }       
     }
 
