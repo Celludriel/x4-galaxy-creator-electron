@@ -92,7 +92,7 @@ function ClusterEditorTab({ clusters }) {
     }
 
     const removeCluster = () => {
-        if(selectedCluster.x !== 0 && selectedCluster.y !== 0) {
+        if(selectedCluster.x !== 0 || selectedCluster.y !== 0) {
             dispatch(allActions.galaxyActions.removeCluster(selectedCluster))
             setDirty(false)
         }

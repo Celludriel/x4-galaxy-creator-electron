@@ -40,15 +40,21 @@ const defaultState = {
 
 const addEditorUuid = (galaxy) => {
     var clusters = galaxy.clusters.map((cluster) => {
-        cluster["editorId"] = uuidv4();
+        if(cluster.editorId === undefined){
+            cluster["editorId"] = uuidv4();
+        }
         return cluster
     })
-    var products = galaxy.products.map((product) => { 
-        product["editorId"] = uuidv4();
+    var products = galaxy.products.map((product) => {
+        if(product.editorId === undefined){
+            product["editorId"] = uuidv4();
+        } 
         return product
     })
     var jobs = galaxy.jobs.map((job) => { 
-        job["editorId"] = uuidv4();
+        if(job.editorId === undefined){
+            job["editorId"] = uuidv4();
+        }
         return job        
     })
 
@@ -79,6 +85,7 @@ const galaxyReducer = (state = defaultState, action) => {
                 galaxy: { ...state.galaxy, clusters: [action.data, ...state.galaxy.clusters]}
             }
         case "REMOVE_CLUSTER":
+            debugger
             return {...state,
                 galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.editorId === action.data.editorId) ? null : cluster)}
             }
