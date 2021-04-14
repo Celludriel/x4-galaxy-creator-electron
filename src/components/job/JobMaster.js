@@ -6,7 +6,7 @@ function JobMaster({ jobs, selectJob, prepareNewJob, removeJob }) {
     return (
         <Fragment>
             <Segment textAlign="right">
-                <Button onClick={prepareNewJob}>Add</Button>
+                <Button onClick={() => { prepareNewJob() }}>Add</Button>
             </Segment>
             <Table celled striped>
                 <Table.Header>

@@ -16,7 +16,8 @@ const defaultState = {
         "minRandomBelts": 0,
         "maxRandomBelts": 0,
         "clusters": [{
-            "id": uuidv4(),
+            "editorId": uuidv4(),
+            "id": "",
             "name": "",
             "description": "",
             "music": "",
@@ -37,17 +38,41 @@ const defaultState = {
     }
 }
 
+const addEditorUuid = (galaxy) => {
+    var clusters = galaxy.clusters.map((cluster) => {
+        cluster["editorId"] = uuidv4();
+        return cluster
+    })
+    var products = galaxy.products.map((product) => { 
+        product["editorId"] = uuidv4();
+        return product
+    })
+    var jobs = galaxy.jobs.map((job) => { 
+        job["editorId"] = uuidv4();
+        return job        
+    })
+
+    galaxy.clusters = clusters
+    galaxy.products = products
+    galaxy.jobs = jobs
+
+    return galaxy
+}
+
 const galaxyReducer = (state = defaultState, action) => {
     switch (action.type) {
         case "LOAD_GALAXY":
-            return {...state, galaxy: action.data}        
+            var galaxyWithUuid = addEditorUuid(action.data)
+            return {
+                ...state, galaxy: galaxyWithUuid
+            }        
         case "UPDATE_GALAXY":
             return {...state, galaxy: {...state.galaxy, ...action.data}}        
         case "NEW_GALAXY":
             return defaultState     
         case "UPDATE_CLUSTER":
             return {...state,
-                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.id === action.data.id) ? action.data : cluster)}
+                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.map(cluster => (cluster.editorId === action.data.editorId) ? action.data : cluster)}
             }
         case "ADD_CLUSTER":
             return {...state,
@@ -55,11 +80,11 @@ const galaxyReducer = (state = defaultState, action) => {
             }
         case "REMOVE_CLUSTER":
             return {...state,
-                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.id === action.data.id) ? null : cluster)}
+                galaxy: { ...state.galaxy, clusters: state.galaxy.clusters.filter(cluster => (cluster.editorId === action.data.editorId) ? null : cluster)}
             }
         case "UPDATE_PRODUCT":
             return {...state,
-                galaxy: { ...state.galaxy, products: state.galaxy.products.map(product => (product.id === action.data.id) ? action.data : product)}
+                galaxy: { ...state.galaxy, products: state.galaxy.products.map(product => (product.editorId === action.data.editorId) ? action.data : product)}
             }
         case "ADD_PRODUCT":
             return {...state,
@@ -67,11 +92,11 @@ const galaxyReducer = (state = defaultState, action) => {
             }
         case "REMOVE_PRODUCT":
             return {...state,
-                galaxy: { ...state.galaxy, products: state.galaxy.products.filter(product => (product.id === action.data.id) ? null : product)}
+                galaxy: { ...state.galaxy, products: state.galaxy.products.filter(product => (product.editorId === action.data.editorId) ? null : product)}
             }
         case "UPDATE_JOB":
             return {...state,
-                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.map(job => (job.id === action.data.id) ? action.data : job)}
+                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.map(job => (job.editorId === action.data.editorId) ? action.data : job)}
             }
         case "ADD_JOB":
             return {...state,
@@ -79,7 +104,7 @@ const galaxyReducer = (state = defaultState, action) => {
             }
         case "REMOVE_JOB":
             return {...state,
-                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.filter(job => (job.id === action.data.id) ? null : job)}
+                galaxy: { ...state.galaxy, jobs: state.galaxy.jobs.filter(job => (job.editorId === action.data.editorId) ? null : job)}
             }
         default:
             return state

@@ -19,6 +19,7 @@ function ClusterEditorTab({ clusters }) {
     })
 
     const formValue = {
+        "editorId": selectedCluster.editorId,
         "id": selectedCluster.id,
         "name": selectedCluster.name,
         "description": selectedCluster.description,
@@ -52,15 +53,14 @@ function ClusterEditorTab({ clusters }) {
     }, [selectedCluster])
 
     const formUpdate = (form) => {
-        console.log("formupdate");
         setDirty(true)
         setForm(form)
-        console.log(form)
     }
 
     const handleSubmit = (evt) => {
-        console.log("handleSubmit");
-        evt.preventDefault();
+        if(evt !== null){
+            evt.preventDefault();
+        }
         if(Number.isInteger(Number(form.x)) && Number.isInteger(Number(form.y))){
             dispatch(allActions.galaxyActions.updateClusterInGalaxy(form))
             setDirty(false)
@@ -69,7 +69,8 @@ function ClusterEditorTab({ clusters }) {
 
     const addNewCluster = () => {
         dispatch(allActions.galaxyActions.addNewCluster({
-            "id": uuidv4(),
+            "editorId": uuidv4(),
+            "id": "",
             "name": "",
             "description": "",
             "music": "",
@@ -124,7 +125,7 @@ function ClusterEditorTab({ clusters }) {
     }
 
     const panes = [
-        { menuItem: 'Details', render: () => <Tab.Pane><ClusterDetailsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
+        { menuItem: 'Details', render: () => <Tab.Pane ><ClusterDetailsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Connections', render: () => <Tab.Pane><ClusterConnectionsTab form={form} setForm={formUpdate} clusters={clusters} /></Tab.Pane> },
         { menuItem: 'Stations', render: () => <Tab.Pane><ClusterStationsTab form={form} setForm={formUpdate} /></Tab.Pane> },
         { menuItem: 'Player Start', render: () => <Tab.Pane><ClusterPlayerStartTab form={form} setForm={formUpdate} /></Tab.Pane> },
@@ -146,7 +147,7 @@ function ClusterEditorTab({ clusters }) {
             <Button secondary onClick={removeCluster}>Delete</Button>
             <Button primary onClick={addNewCluster}>Add</Button>
             <Form onSubmit={handleSubmit}>
-                <Tab panes={panes} />
+                <Tab panes={panes} onTabChange={() => handleSubmit(null)} />
                 <br />
                 <Form.Button primary disabled={!dirty}>Save Cluster</Form.Button>
             </Form>

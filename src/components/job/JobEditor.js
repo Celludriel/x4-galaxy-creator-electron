@@ -18,6 +18,7 @@ function JobEditor() {
 
     const prepareNewJob = () => {
         setSelectedJob({
+            "id": "",
             "name": "",
             "basket": "",
             "category": {
@@ -75,11 +76,11 @@ function JobEditor() {
     }
 
     const saveJob = (job) => {
-        if (job.id !== undefined) {
+        if (job.editorId !== undefined) {
             dispatch(allActions.jobActions.saveJob(job))
             setEditorState("MASTER")
         } else {
-            job.id = uuidv4()
+            job.editorId = uuidv4()
             dispatch(allActions.jobActions.saveNewJob(job))
             setEditorState("MASTER")
         }
@@ -93,7 +94,7 @@ function JobEditor() {
         <Fragment>
             {
                 editorState === "MASTER" &&
-                <JobMaster jobs={galaxy.jobs} selectJob={selectJob} prepareNewjob={prepareNewJob} removeJob={removeJob} />
+                <JobMaster jobs={galaxy.jobs} selectJob={selectJob} prepareNewJob={prepareNewJob} removeJob={removeJob} />
             }
             {
                 editorState === "DETAILS" &&

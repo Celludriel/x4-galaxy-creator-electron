@@ -5,6 +5,13 @@ const saveJob = (job) => {
     }
 }
 
+const removeJob = (job) => {
+    return {
+        type: "REMOVE_JOB",
+        data: job
+    }
+}
+
 const saveNewJob = (job) => {
     return {
         type: "ADD_JOB",
@@ -12,4 +19,4 @@ const saveNewJob = (job) => {
     }
 }
 
-export default { saveJob, saveNewJob }
+export default { saveJob, saveNewJob, removeJob }

@@ -18,6 +18,7 @@ function EconomyEditor() {
 
     const prepareNewProduct = () => {
         setSelectedProduct({
+            "id": "",
             "ware": "",
             "galaxyQuota": 0,
             "clusterQuota": 0,
@@ -40,11 +41,11 @@ function EconomyEditor() {
     }
 
     const saveProduct = (product) => {
-        if(product.id !== undefined){
+        if(product.editorId !== undefined){
             dispatch(allActions.economyActions.saveProduct(product))
             setEditorState("MASTER")            
         } else {
-            product.id = uuidv4()
+            product.editorId = uuidv4()
             dispatch(allActions.economyActions.saveNewProduct(product))
             setEditorState("MASTER")      
         }
