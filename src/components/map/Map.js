@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import * as Honeycomb from "honeycomb-grid";
 import GalaxyService from "../../service/galaxyservice";
 
-function Map({ size, width, height, clusters, ...props }) {
+function Map({ size, width, height, clusters, mapDisplay, ...props }) {
   const canvasRef = React.useRef(null);
   const canvasDivRef = React.useRef(null);
   const clusterMap = {}
@@ -22,7 +22,7 @@ function Map({ size, width, height, clusters, ...props }) {
       }
   }
 
-  useHoneyCombGrid(canvasRef, size, width, height, clusterMap);
+  useHoneyCombGrid(canvasRef, size, width, height, clusterMap, mapDisplay);
 
   const gridwidth = ((Math.ceil(width / 2)) * 80) + ((Math.ceil(width / 2)) * 40) + 20;
   const gridheight = (height * 69.282) + 40
@@ -34,7 +34,7 @@ function Map({ size, width, height, clusters, ...props }) {
   )
 }
 
-function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
+function useHoneyCombGrid(canvasRef, size, width, height, clusters, mapDisplay) {
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -71,11 +71,12 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
         context.lineWidth = 1;
         context.stroke();
 
+        let cluster = null;
         let gameCoords = GalaxyService.getGameCoordinates([this.x, this.y])
         if(clusters !== undefined && Object.keys(clusters).length > 0) {
-            let cluster = clusters[gameCoords[0]+","+gameCoords[1]];
+            cluster = clusters[gameCoords[0]+","+gameCoords[1]];
 
-            if(cluster !== undefined){
+            if(cluster !== undefined && cluster !== null){
                 let clusterOwner = GalaxyService.getClusterOwner(cluster);
                 context.fillStyle = 'grey';
                 if(clusterOwner !== null){
@@ -87,8 +88,23 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
             }
         }
 
-        context.fillStyle = "black"
-        context.fillText(gameCoords[0]+","+gameCoords[1],centerPosition.x+xOffset-7,centerPosition.y+yOffset)
+        if(mapDisplay.showCoords){
+          context.fillStyle = "black"
+          context.fillText(gameCoords[0]+","+gameCoords[1],centerPosition.x+xOffset-7,centerPosition.y+yOffset+30)          
+        }
+
+        if(cluster !== undefined && cluster !== null && cluster.name !== undefined && cluster.name !== "" && mapDisplay.showSectorName){
+          const splitString = cluster.name.match(/.{1,12}/g);
+          let xTextOffset = 30;
+          let yTextOffset = 0
+          for(var i = 0;i < splitString.length;i++){
+            context.fillStyle = "black"
+            context.fillText(splitString[i],centerPosition.x+xOffset-xTextOffset,centerPosition.y+yOffset+yTextOffset)
+            xTextOffset = xTextOffset - 5  
+            yTextOffset = yTextOffset + 8;
+          }
+        }
+
         context.closePath();
       },
     });
@@ -105,7 +121,7 @@ function useHoneyCombGrid(canvasRef, size, width, height, clusters) {
     return () => {
       canvas.innerHTML = "";
     };
-  }, [canvasRef, size, width, height, clusters]);
+  }, [canvasRef, size, width, height, clusters, mapDisplay]);
 }
 
 export default Map;

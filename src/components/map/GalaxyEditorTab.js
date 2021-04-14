@@ -45,7 +45,7 @@ function GalaxyEditorTab() {
             </Form.Group>
             <Form.Group widths={"equal"}>
                 <Form.Input name={"galaxyName"} label={"Name"} value={form.galaxyName} onChange={e => {
-                    setForm({ ...form, galaxyName: e.target.value })}} />
+                    formUpdate({ ...form, galaxyName: e.target.value })}} />
                 <Form.Input name={"author"} label={"Author"} value={form.author} onChange={e => {
                     formUpdate({ ...form, author: e.target.value })}} />
             </Form.Group>

@@ -11,8 +11,13 @@ import {ToastContainer} from "react-toastify";
 function MainContainer() {
     const [activeEditor, setActiveEditor] = useState("MAP_EDITOR");
     const [filePath, setFilePath] = useState();
+    const [mapDisplay, setMapDisplay] = useState({
+        "showCoords": true,
+        "showSectorName": false
+    });
     const clusters = useSelector(state => state.galaxyReducer.galaxy.clusters);
 
+    console.log(mapDisplay)
     return (
         <Grid padded={true} divided={true}>
             <Grid.Row columns={1}>
@@ -25,10 +30,10 @@ function MainContainer() {
                 activeEditor === "MAP_EDITOR" && 
                 <Grid.Row columns={2}>
                     <Grid.Column textAlign='center'>
-                        <Map size={40} width={25} height={25} clusters={clusters}/>
+                        <Map size={40} width={25} height={25} clusters={clusters} mapDisplay={mapDisplay} />
                     </Grid.Column>
                     <Grid.Column>
-                        <MapEditor clusters={clusters}/>
+                        <MapEditor clusters={clusters} mapDisplay={mapDisplay} setMapDisplay={setMapDisplay} />
                     </Grid.Column>
                 </Grid.Row>
             }
