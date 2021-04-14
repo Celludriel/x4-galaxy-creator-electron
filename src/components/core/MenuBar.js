@@ -33,6 +33,7 @@ function MenuBar({setEditor, filePath, setFilePath}) {
 
     const createNewGalaxy = () => {
         dispatch(allActions.galaxyActions.newGalaxy())
+        setFilePath("")
     }
 
     const createMod = () => {
