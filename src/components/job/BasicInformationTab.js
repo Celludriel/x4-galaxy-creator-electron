@@ -8,7 +8,7 @@ function BasicInformationTab({ form, setForm }) {
         <Fragment>
             <Segment>
                 <Form.Group widths={"equal"}>
-                    <Form.Input disabled={true} name={"id"} label={"Id"} value={form.id} onChange={e => {
+                    <Form.Input name={"id"} label={"Id"} value={form.id} onChange={e => {
                         setForm({ ...form, id: e.target.value })
                     }} />
                     <Form.Input name={"name"} label={"Name"} value={form.name} onChange={e => {
