@@ -1,30 +1,49 @@
 import { Button, Table, Form } from "semantic-ui-react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import GalaxyService from './../../service/galaxyservice';
 
 function ClusterConnectionsTab({ form, setForm, clusters }) {
     const [connectionForm, setConnectionForm] = useState({
         "targetClusterId": "",
-        "connectionType": ""
+        "connectionType": "",
+        "parameters": null
     })
 
     const connectionTypes = [
-        {key: 'N',text: 'N',value: 'N'},
-        {key: 'NE',text: 'NE',value: 'NE'},
-        {key: 'SE',text: 'SE',value: 'SE'},
-        {key: 'S',text: 'S',value: 'S'},
-        {key: 'SW',text: 'SW',value: 'SW'},
-        {key: 'NW',text: 'NW',value: 'NW'},
+        { key: 'N', text: 'N', value: 'N' },
+        { key: 'NE', text: 'NE', value: 'NE' },
+        { key: 'SE', text: 'SE', value: 'SE' },
+        { key: 'S', text: 'S', value: 'S' },
+        { key: 'SW', text: 'SW', value: 'SW' },
+        { key: 'NW', text: 'NW', value: 'NW' },
+        { key: 'CUSTOM', text: 'CUSTOM', value: 'CUSTOM' },
     ]
 
     const addConnectionToCluster = () => {
-        if(connectionForm.targetClusterId !== "" && connectionForm.connectionType !== ""){
-            setForm({...form, connections: [...form.connections, connectionForm]})
+        if (connectionForm.targetClusterId !== "" && connectionForm.connectionType !== "") {
+            setForm({ ...form, connections: [...form.connections, connectionForm] })
         }
     }
 
     const removeConnectionFromCluster = (index) => {
-        setForm({...form, connections: [...form.connections.slice(0, index), ...form.connections.slice(index + 1)]})
+        setForm({ ...form, connections: [...form.connections.slice(0, index), ...form.connections.slice(index + 1)] })
+    }
+
+    const onChangePlacement = (evt, obj) => {
+        if (obj.value !== "CUSTOM") {
+            setConnectionForm({ ...connectionForm, connectionType: obj.value, parameters: null })
+        } else {
+            setConnectionForm({
+                ...connectionForm, connectionType: obj.value, parameters: {
+                    "startPositionX": "",
+                    "startPositionY": "",
+                    "startRotation": "",
+                    "endPositionX": "",
+                    "endPositionY": "",
+                    "endRotation": ""
+                }
+            })
+        }
     }
 
     return (
@@ -39,17 +58,26 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
 
             <Table.Body>
                 {
-                    form.connections && 
-                        form.connections.map((connection, index) => {
-                            const data = GalaxyService.getClusterDataForId(connection.targetClusterId, clusters);
-                            return(
-                                <Table.Row key={index}>
-                                    <Table.Cell>{`${data.name} (${data.x},${data.y})`}</Table.Cell>
-                                    <Table.Cell>{connection.connectionType}</Table.Cell>
-                                    <Table.Cell><Button type="button" onClick={() => { removeConnectionFromCluster(index)}} >Delete</Button></Table.Cell>
-                                </Table.Row>
-                            )           
-                        })
+                    form.connections &&
+                    form.connections.map((connection, index) => {
+                        const data = GalaxyService.getClusterDataForId(connection.targetClusterId, clusters);
+                        return (
+                            <Table.Row key={index}>
+                                <Table.Cell>{`${data.name} (${data.x},${data.y})`}</Table.Cell>
+                                {
+                                    connection.connectionType !== undefined && connection.connectionType !== "CUSTOM" &&
+                                        <Table.Cell>{connection.connectionType}</Table.Cell>
+                                }
+                                {
+                                    connection.connectionType !== undefined && connection.connectionType === "CUSTOM" &&
+                                        <Table.Cell>{ `${connection.connectionType} 
+                                        (${connection.parameters.startPositionX},${connection.parameters.startPositionY},${connection.parameters.startRotation}) => 
+                                        (${connection.parameters.endPositionX},${connection.parameters.endPositionY},${connection.parameters.endRotation})` }</Table.Cell>
+                                }
+                                <Table.Cell><Button type="button" onClick={() => { removeConnectionFromCluster(index) }} >Delete</Button></Table.Cell>
+                            </Table.Row>
+                        )
+                    })
                 }
             </Table.Body>
 
@@ -59,10 +87,39 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
                         <Form.Group>
                             <Form.Dropdown placeholder='Destination' search selection options={GalaxyService.getClusterOptions(clusters)}
                                 onChange={(e, obj) => {
-                                    setConnectionForm({ ...connectionForm, targetClusterId: clusters[obj.value].id })}} />
+                                    setConnectionForm({ ...connectionForm, targetClusterId: clusters[obj.value].id })
+                                }} />
                             <Form.Dropdown placeholder='Placement' search selection options={connectionTypes}
-                                onChange={(e, obj) => {
-                                    setConnectionForm({ ...connectionForm, connectionType: obj.value })}} />
+                                onChange={onChangePlacement} />
+                        </Form.Group>
+                        {
+                            connectionForm.connectionType === "CUSTOM" &&
+                            <Fragment>
+                                <Form.Group>
+                                    <Form.Input name={"startPositionX"} label={"Entry Gate X"} value={connectionForm.parameters.startPositionX} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, startPositionX: e.target.value } })
+                                    }} />
+                                    <Form.Input name={"startPositionY"} label={"Entry Gate Y"} value={connectionForm.parameters.startPositionY} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, startPositionY: e.target.value } })
+                                    }} />
+                                    <Form.Input name={"startRotation"} label={"Entry Gate Rotation"} value={connectionForm.parameters.startRotation} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, startRotation: e.target.value } })
+                                    }} />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Input name={"endPositionX"} label={"Exit Gate X"} value={connectionForm.parameters.endPositionX} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, endPositionX: e.target.value } })
+                                    }} />
+                                    <Form.Input name={"endPositionY"} label={"Exit Gate Y"} value={connectionForm.parameters.endPositionY} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, endPositionY: e.target.value } })
+                                    }} />
+                                    <Form.Input name={"endRotation"} label={"Exit Gate Rotation"} value={connectionForm.parameters.endRotation} onChange={e => {
+                                        setConnectionForm({ ...connectionForm, parameters: { ...connectionForm.parameters, endRotation: e.target.value } })
+                                    }} />
+                                </Form.Group>
+                            </Fragment>
+                        }
+                        <Form.Group>
                             <Form.Button primary type="button" onClick={addConnectionToCluster}>Add</Form.Button>
                         </Form.Group>
                     </Table.HeaderCell>
