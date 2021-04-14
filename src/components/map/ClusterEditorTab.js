@@ -13,7 +13,6 @@ function ClusterEditorTab({ clusters }) {
     const dispatch = useDispatch()
     const [selectedCluster, setSelectedCluster] = useState(clusters[0])
     const [clusterDropdownValue, setClusterDropdownValue] = useState(0)
-    const [previousClusterDropdownValue, setPreviousClusterDropdownValue] = useState(0)
     const [clusterSwitchConfirmation, setClusterSwitchConfirmation] = useState({
         "open": false,
         "newDropdownValue": null
@@ -107,7 +106,6 @@ function ClusterEditorTab({ clusters }) {
 
     const showConfirmationForSwitchingCluster = (obj) => {
         if(dirty){
-            setPreviousClusterDropdownValue(clusterDropdownValue)
             setClusterSwitchConfirmation({
                 "open": true,
                 "newDropdownValue": obj
