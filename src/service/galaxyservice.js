@@ -149,6 +149,14 @@ const GalaxyService = {
             "music_cluster_getsu_fune","music_cluster_frontier_edge","music_cluster_turquoise_sea","music_cluster_complete","music_bigbattle","music_suspense","music_default","music_01","music_02",
             "music_03","music_04","music_off"]
         return allMusic.map((music) => {return {key: music,text: music,value: music}})
+    },
+    getBackdropOptions: () => {
+        let allBackdrops = ["empty_space","Cluster_01","Cluster_05_work","Cluster_01","Cluster_02","Cluster_03","Cluster_04","Cluster_05","Cluster_06","Cluster_07","Cluster_08","Cluster_09","Cluster_10","Cluster_11",
+        "Cluster_12","Cluster_13","Cluster_14","Cluster_15","Cluster_16","Cluster_17","Cluster_18","Cluster_19","Cluster_20","Cluster_21","Cluster_22","Cluster_23","Cluster_24","Cluster_25","Cluster_26",
+        "Cluster_27","Cluster_28","Cluster_29","Cluster_30","Cluster_31","Cluster_32","Cluster_33","Cluster_34","Cluster_35","Cluster_36","Cluster_37","Cluster_38","Cluster_39","Cluster_40","Cluster_41",
+        "Cluster_42","Cluster_43","Cluster_44","Cluster_45","Cluster_46","Cluster_47","Cluster_48","Cluster_49","Cluster_50","cluster_black","cluster_black_wlight","cluster_black_wlight_tp","cluster_sm2_background",
+        "cluster_sm3_background","cluster_sm_background"]
+        return allBackdrops.map((backdrop) => {return {key: backdrop,text: backdrop,value: backdrop}})
     }
 };
 

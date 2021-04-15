@@ -40,10 +40,8 @@ function ClusterDetailsTab({ form, setForm, clusters }) {
                     setForm({ ...form, security: e.target.value })}}  />
             </Form.Group>
             <Form.Group widths={"equal"}>
-                <Form.Dropdown label={"Backdrop"} placeholder='Backdrop' search selection options={backdropOptions}
-                    value={form.backdrop} onChange={(e,obj) => {
-                        setForm({ ...form, backdrop: obj.value })}}  />
-                 <Form.Dropdown label={"Faction Hq"} placeholder='Faction Hq' search selection options={GalaxyService.getFactionHqOptions(clusters)}
+                <SelectionPicker label={"Backdrop"} choices={GalaxyService.getBackdropOptions()} setValue={(value) => setForm({ ...form, backdrop: value })} value={form.backdrop} />        
+                <Form.Dropdown label={"Faction Hq"} placeholder='Faction Hq' search selection options={GalaxyService.getFactionHqOptions(clusters)}
                     value={form.factionHq} onChange={(e,obj) => {
                         setForm({ ...form, factionHq: obj.value })}}  />
             </Form.Group>
