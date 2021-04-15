@@ -6,7 +6,8 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
     const [connectionForm, setConnectionForm] = useState({
         "targetClusterId": "",
         "connectionType": "",
-        "parameters": null
+        "parameters": null,
+        "gateType": null
     })
 
     const connectionTypes = [
@@ -20,7 +21,9 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
     ]
 
     const addConnectionToCluster = () => {
-        if (connectionForm.targetClusterId !== "" && connectionForm.connectionType !== "") {
+        if (connectionForm.targetClusterId !== "" 
+            && connectionForm.connectionType !== ""
+            && connectionForm.gateType !== "") {
             setForm({ ...form, connections: [...form.connections, connectionForm] })
         }
     }
@@ -52,6 +55,7 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
                 <Table.Row>
                     <Table.HeaderCell>Connection Destination</Table.HeaderCell>
                     <Table.HeaderCell>Gate Placement In Grid</Table.HeaderCell>
+                    <Table.HeaderCell>Gate Type</Table.HeaderCell>
                     <Table.HeaderCell></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -61,29 +65,32 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
                     form.connections &&
                     form.connections.map((connection, index) => {
                         const data = GalaxyService.getClusterDataForId(connection.targetClusterId, clusters);
-                        return (
-                            <Table.Row key={index}>
-                                <Table.Cell>{`${data.name} (${data.x},${data.y})`}</Table.Cell>
-                                {
-                                    connection.connectionType !== undefined && connection.connectionType !== "CUSTOM" &&
-                                        <Table.Cell>{connection.connectionType}</Table.Cell>
-                                }
-                                {
-                                    connection.connectionType !== undefined && connection.connectionType === "CUSTOM" &&
-                                        <Table.Cell>{ `${connection.connectionType} 
-                                        (${connection.parameters.startPositionX},${connection.parameters.startPositionY},${connection.parameters.startRotation}) => 
-                                        (${connection.parameters.endPositionX},${connection.parameters.endPositionY},${connection.parameters.endRotation})` }</Table.Cell>
-                                }
-                                <Table.Cell><Button type="button" onClick={() => { removeConnectionFromCluster(index) }} >Delete</Button></Table.Cell>
-                            </Table.Row>
-                        )
+                        if(data){
+                            return (
+                                <Table.Row key={index}>
+                                    <Table.Cell>{`${data.name} (${data.x},${data.y})`}</Table.Cell>
+                                    {
+                                        connection.connectionType !== undefined && connection.connectionType !== "CUSTOM" &&
+                                            <Table.Cell>{connection.connectionType}</Table.Cell>
+                                    }
+                                    {
+                                        connection.connectionType !== undefined && connection.connectionType === "CUSTOM" &&
+                                            <Table.Cell>{ `${connection.connectionType} 
+                                            (${connection.parameters.startPositionX},${connection.parameters.startPositionY},${connection.parameters.startRotation}) => 
+                                            (${connection.parameters.endPositionX},${connection.parameters.endPositionY},${connection.parameters.endRotation})` }</Table.Cell>
+                                    }
+                                    <Table.Cell>{connection.gateType !== undefined ? connection.gateType : "ANCIENT_GATE"}</Table.Cell>
+                                    <Table.Cell><Button type="button" onClick={() => { removeConnectionFromCluster(index) }} >Delete</Button></Table.Cell>
+                                </Table.Row>
+                            )
+                        }
                     })
                 }
             </Table.Body>
 
             <Table.Footer>
                 <Table.Row>
-                    <Table.HeaderCell colSpan='3' textAlign={"right"}>
+                    <Table.HeaderCell colSpan='4' textAlign={"right"}>
                         <Form.Group>
                             <Form.Dropdown placeholder='Destination' search selection options={GalaxyService.getClusterOptions(clusters)}
                                 onChange={(e, obj) => {
@@ -91,6 +98,10 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
                                 }} />
                             <Form.Dropdown placeholder='Placement' search selection options={connectionTypes}
                                 onChange={onChangePlacement} />
+                            <Form.Dropdown placeholder='Gate Type' search selection options={GalaxyService.getGateOptions()}
+                                onChange={(e, obj) => {
+                                    setConnectionForm({ ...connectionForm, gateType: obj.value })
+                                }} />
                         </Form.Group>
                         {
                             connectionForm.connectionType === "CUSTOM" &&

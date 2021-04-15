@@ -126,6 +126,14 @@ const GalaxyService = {
             {key: 'MINISTRY',text: 'Ministry',value: 'MINISTRY'},
             {key: 'SCALEPLATE',text: 'Scale Plate',value: 'SCALEPLATE'}
         ]
+    },    
+    getGateOptions: () => {
+        return [
+            {key: 'ACCELERATOR_01',text: 'Accelerator Type 1',value: 'ACCELERATOR_01'},
+            {key: 'ACCELERATOR_02',text: 'Accelerator Type 2',value: 'ACCELERATOR_02'},
+            {key: 'ANCIENT_GATE',text: 'Regular Gate',value: 'ANCIENT_GATE'},
+            {key: 'TERRAN_GATE',text: 'Terran Gate',value: 'TERRAN_GATE'}
+        ]
     },
     getWareOptions: () => {
         let allWares = ["advancedcomposites","advancedelectronics","antimattercells","antimatterconverters","claytronics","dronecomponents",
@@ -135,6 +143,12 @@ const GalaxyService = {
         "spices","sunriseflowers","superfluidcoolant","swampplant","teladianium","turretcomponents","water","weaponcomponents","wheat","cheltmeat", 
         "scruffinfruits","computronicsubstrate","metallicmicrolattice","proteinpaste","siliconcarbide","stimulants","terranmre"]
         return allWares.map((ware) => {return {key: ware,text: ware,value: ware}})
+    },
+    getMusicOptions: () => {
+        let allMusic = ["music_soundtrack_periphery","music_soundtrack_teladi","music_soundtrack_argon","music_soundtrack_paranid","music_soundtrack_xenon","music_cluster_antigone_memorial",
+            "music_cluster_getsu_fune","music_cluster_frontier_edge","music_cluster_turquoise_sea","music_cluster_complete","music_bigbattle","music_suspense","music_default","music_01","music_02",
+            "music_03","music_04","music_off"]
+        return allMusic.map((music) => {return {key: music,text: music,value: music}})
     }
 };
 
