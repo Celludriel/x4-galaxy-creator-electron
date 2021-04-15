@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Form } from "semantic-ui-react";
+import SelectionPicker from "../core/SelectionPicker";
 import GalaxyService from './../../service/galaxyservice';
 
 function ClusterDetailsTab({ form, setForm, clusters }) {
@@ -28,8 +29,7 @@ function ClusterDetailsTab({ form, setForm, clusters }) {
                 value={form.description} onChange={e => {
                     setForm({ ...form, description: e.target.value })}} />
             <Form.Group widths={"equal"}>
-                <Form.Input name={"music"} label={"Music"} value={form.music} onChange={e => {
-                    setForm({ ...form, music: e.target.value })}}  />
+                <SelectionPicker label={"Music"} choices={GalaxyService.getMusicOptions()} setValue={(value) => setForm({ ...form, music: value })} value={form.music} />
                 <Form.Input name={"sunlight"} label={"Sunlight"} value={form.sunlight}  onChange={e => {
                     setForm({ ...form, sunlight: e.target.value })}} />
             </Form.Group>
