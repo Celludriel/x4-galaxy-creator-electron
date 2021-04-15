@@ -13,9 +13,10 @@ function ClusterEditorTab({ clusters }) {
     const dispatch = useDispatch()
     const [selectedCluster, setSelectedCluster] = useState(clusters[0])
     const [clusterDropdownValue, setClusterDropdownValue] = useState(0)
-    const [clusterSwitchConfirmation, setClusterSwitchConfirmation] = useState({
+    const [clusterConfirmation, setClusterConfirmation] = useState({
         "open": false,
-        "newDropdownValue": null
+        "newDropdownValue": null,
+        "action": null
     })
 
     const formValue = {
@@ -105,11 +106,23 @@ function ClusterEditorTab({ clusters }) {
         setClusterDropdownValue(obj.value)
     }
 
+    const showConfirmationForAddingCluster = () => {
+        if(dirty){
+            setClusterConfirmation({
+                "open": true,
+                "action": "ADD"
+            })
+        } else {
+            addNewCluster();
+        }
+    }
+
     const showConfirmationForSwitchingCluster = (obj) => {
         if(dirty){
-            setClusterSwitchConfirmation({
+            setClusterConfirmation({
                 "open": true,
-                "newDropdownValue": obj
+                "newDropdownValue": obj,
+                "action": "SWITCH"
             })
         } else {
             switchSelectedCluster(obj)
@@ -117,8 +130,12 @@ function ClusterEditorTab({ clusters }) {
     }
 
     const doClusterSwitch = () => {
-        switchSelectedCluster(clusterSwitchConfirmation.newDropdownValue)
-        setClusterSwitchConfirmation({
+        if(clusterConfirmation.action === "SWITCH"){
+            switchSelectedCluster(clusterConfirmation.newDropdownValue)
+        } else if(clusterConfirmation.action === "ADD"){
+            addNewCluster();
+        }
+        setClusterConfirmation({
             "open": false,
             "newDropdownValue": null
         })
@@ -136,8 +153,8 @@ function ClusterEditorTab({ clusters }) {
             <Dropdown placeholder='Cluster' value={clusterDropdownValue} search selection options={GalaxyService.getClusterOptions(clusters)}
                 onChange={(evt,obj) => showConfirmationForSwitchingCluster(obj)} />
             <Confirm
-                open={clusterSwitchConfirmation.open}
-                onCancel={() => setClusterSwitchConfirmation({
+                open={clusterConfirmation.open}
+                onCancel={() => setClusterConfirmation({
                     "open": false,
                     "newDropdownValue": null
                 })}
@@ -145,7 +162,7 @@ function ClusterEditorTab({ clusters }) {
             />
             &nbsp;
             <Button secondary onClick={removeCluster}>Delete</Button>
-            <Button primary onClick={addNewCluster}>Add</Button>
+            <Button primary onClick={showConfirmationForAddingCluster}>Add</Button>
             <Form onSubmit={handleSubmit}>
                 <Tab panes={panes} onTabChange={() => handleSubmit(null)} />
                 <br />
