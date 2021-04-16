@@ -84,6 +84,7 @@ function ClusterConnectionsTab({ form, setForm, clusters }) {
                                 </Table.Row>
                             )
                         }
+                        return ""
                     })
                 }
             </Table.Body>

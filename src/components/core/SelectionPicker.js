@@ -6,7 +6,7 @@ function SelectionPicker({ label, choices, setValue, value }) {
 
     return (
         <Fragment>
-            <Form.Input label={label} value={value} />&nbsp;<Button onClick={() => setOpen(true)}>...</Button>
+            <Form.Input label={label} value={value} onChange={(e) => {setValue(e.target.value)}} />&nbsp;<Button onClick={() => setOpen(true)}>...</Button>
             <SelectionPickerModal choices={choices} setValue={setValue} open={open} setOpen={setOpen} />
         </Fragment>
     )
